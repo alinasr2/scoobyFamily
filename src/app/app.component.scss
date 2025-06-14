@@ -1,0 +1,12 @@
+.custom-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ball-spin-clockwise > div {
+    background-color: #FFC107;
+    width: 15px;
+    height: 15px;
+}

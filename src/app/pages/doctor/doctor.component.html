@@ -1,0 +1,168 @@
+<section>
+    <div class="container px-3">
+        <div class="summary flex flex-col gap-5 md:flex-row justify-between items-center bg-gray-100 px-3 py-7">
+            <img loading="lazy" class="w-[150px]" [src]="doctor.doctorImage || 'https://res.cloudinary.com/dhddxcwcr/image/upload/v1700416252/6558f05c2841e64561ce75d1_Cover.jpg'" alt="image">
+            <div class="text-center">
+                <h2 class="text-[30px] font-bold sm:text-[40px] sm:font-extrabold text-[#155B84]">{{doctor.name}}</h2>
+                <p class="text-[#555151]"> {{doctor.description}} </p>
+                <div class="text-white flex justify-center gap-1 sm:gap-3 mt-2">
+                    <span class="py-1 px-3 sm:px-6 bg-[#155B84] rounded-full text-[14px] font-normal flex items-center gap-1">
+                        <span>{{doctor.rate}} </span>
+                        <i class="fa-solid fa-star text-[12px] text-[#FAC32E] "></i>
+                        <span>({{doctor.numberOfRate}} Reviews)</span> 
+                    </span>
+                    @for (item of doctor.accepted_pet_types; track $index) {
+                        <span class="py-1 px-3 bg-[#FAC32E] rounded-full text-[14px] font-normal">{{item}}</span>
+                    } @empty {
+                        <span class="py-1 px-3 bg-gray-300 rounded-full text-[14px] font-normal text-gray-600">No pet types specified</span>
+                    }
+                </div>
+            </div>
+            <a [href]="'tel:'+ doctor.phone">
+                <span class="py-2 px-7 bg-[#155B84] rounded text-[16px] font-normal text-white shadow"><i class="fa-solid fa-phone me-2"></i> {{ 'doctorPage.callNow' | translate }}</span>
+            </a>
+        </div>
+        <div class="flex flex-col md:flex-row gap-10 mt-5">
+            <div class="left flex-1 flex flex-col gap-5">
+                <div class="about py-3 px-5 shadow rounded">
+                    <h2 class="text-[27px] font-bold text-[#155B84]">{{ 'doctorPage.aboutDoctor' | translate }}</h2>
+                    <p class="text-[#555151]">{{doctor.about || ('doctorPage.noInfoAvailable' | translate)}}</p>
+                </div>
+                <div class="gallery py-3 px-5 shadow rounded">
+                    <h2 class="text-[23px] font-bold text-[#155B84]">{{ 'doctorPage.gallery' | translate }}</h2>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        @for (image of doctor.imagesProfile; track $index) {
+                            <picture class="rounded-md overflow-hidden">
+                                <img loading="lazy" class="w-full sm:h-[150px]" [src]="image" alt="image">
+                            </picture>
+                        } @empty {
+                            <div class="w-full py-10 text-center bg-gray-100 rounded-md">
+                                <i class="fa-regular fa-images text-4xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-500">{{ 'doctorPage.noGalleryImages' | translate }}</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="right flex flex-col gap-5 md:justify-between">
+                <div class="sp shadow py-5 px-7 rounded">
+                    <h2 class="text-[23px] font-bold text-[#155B84]">{{ 'doctorPage.specializations' | translate }}</h2>
+                    <div class="flex flex-col gap-5 px-2 mt-4">
+                        @for (spe of doctor.specialized_in; track $index) {
+                            <span class="flex items-center gap-3"><span class="w-7 h-7 rounded flex justify-center items-center bg-[#FAC32E]"><i class="fa-regular fa-circle-check text-[#155B84] text-[18px]"></i></span> <h5 class="text-[#555151]">{{spe}}</h5></span>
+                        } @empty {
+                            <div class="text-center py-5">
+                                <i class="fa-solid fa-stethoscope text-3xl text-gray-300 mb-2"></i>
+                                <p class="text-gray-500">{{ 'doctorPage.noSpecializations' | translate }}</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="contact shadow py-3 px-7 bg-white rounded">
+                    <h2 class="text-[23px] font-bold text-[#155B84]">{{ 'doctorPage.contactInfo' | translate }}</h2>
+                    <p class="text-[#555151]"><i class="fa-solid fa-phone me-2"></i>{{doctor.phone || ('doctorPage.noPhoneNumber' | translate)}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="reviewsAll rounded shadow p-5 bg-white mt-8">
+            <h2 class="text-[23px] font-bold text-[#155B84]">{{ 'doctorPage.reviews' | translate }}</h2>
+            <div class="flex flex-wrap gap-7 md:flex-nowrap">
+                <!-- Review Display -->
+                <div class="reviews flex flex-col gap-5 pt-5 w-full">
+                    @for (review of doctor.reviewsOfDoctor; track $index) {
+                        <div class="review flex gap-3 py-2 items-start">
+                            <picture class="rounded-full w-12 h-12 md:w-16 md:h-16 overflow-hidden shrink-0">
+                                <img [src]="review.user.profileImage" class="w-full h-full object-cover" alt="user image" />
+                            </picture>
+                        
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between flex-wrap">
+                                    <h4 [routerLink]="['/account',review.user._id]" class="font-medium cursor-pointer hover:text-[#ffc107] transition text-[14px] sm:text-[17px] md:text-[20] text-[#155B84] flex items-center gap-2">{{review.user.name}}
+                                        @if (myId == review.user._id) {
+                                            <h5 class="text-gray-500 text-base">{{ 'doctorPage.me' | translate }}</h5>
+                                        }
+                                    </h4>
+                                    <p class="text-[10px] sm:text-[12px] md:text-[14px] text-[rgba(15,15,15,0.5)]">
+                                        {{formatDate(review.createdAt)}}
+                                    </p>
+                                </div>
+                            
+                                <div class="flex items-center gap-1">
+                                    @for (star of [1, 2, 3, 4, 5]; track star) {
+                                        @if (star <= review.rating) {
+                                            <i class="fa-solid fa-star text-[#FAC32E] text-[10px] md:text-[12px]"></i>
+                                        } @else {
+                                            <i class="fa-solid fa-star text-gray-300 text-[10px] md:text-[12px]"></i>
+                                        }
+                                    }
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="text-[14px] sm:text-[15px] text-[rgba(15,15,15,0.5)] font-normal mt-3">
+                                        {{review.review}}
+                                    </p>
+                                    @if (myId == review.user._id) {
+                                        <div class="flex gap-2">
+                                            <button (click)="updateReview(review.rating, review.review, review._id)" class="px-2 py-1 h-fit flex gap-1 justify-center items-center rounded-md hover:bg-yellow-400 hover:text-white transition-all duration-300 text-yellow-400 border border-yellow-400">
+                                                <i class="fa-regular fa-pen-to-square text-sm"></i>
+                                                <h4 class="text-sm">{{ 'doctorPage.edit' | translate }}</h4>
+                                            </button>
+                                            <button (click)="deleteReview(review._id)" class="px-2 py-1 h-fit flex gap-1 justify-center items-center rounded-md hover:bg-red-500 hover:text-white transition-all duration-300 text-red-500 border border-red-500">
+                                                <i class="fa-regular fa-trash-can text-sm"></i>
+                                                <h4 class="text-sm">{{ 'doctorPage.delete' | translate }}</h4>
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    } @empty {
+                        <div class="text-center py-10 bg-gray-50 rounded-md">
+                            <i class="fa-regular fa-comment-dots text-4xl text-gray-300 mb-3"></i>
+                            <h3 class="text-gray-500 text-lg font-medium">{{ 'doctorPage.noReviews' | translate }}</h3>
+                            <p class="text-gray-400">{{ 'doctorPage.firstReview' | translate }}</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Review Form -->
+                <div class="max-w-md border border-gray-50 shadow-xl rounded-md h-fit w-full md:max-w-[240px] md:min-w-[350px] mx-auto p-6">
+                    <h2 class="text-base sm:text-lg font-semibold text-[#155B84] mb-4">{{ 'doctorPage.writeReview' | translate }}</h2>
+                
+                    <form [formGroup]="reviewForm">
+                        <textarea formControlName="review" rows="4" [placeholder]="'doctorPage.yourReview' | translate" class="mt-3 w-full border border-gray-300 p-2 text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-[#155B84]"></textarea>
+                        @if (reviewForm.get('review')?.getError('required') && reviewForm.get('review')?.touched) {
+                            <div class="text-red-500 text-xs mt-1">
+                                {{ 'doctorPage.reviewRequired' | translate }}
+                            </div>
+                        }
+                        <div class="flex items-center gap-1">
+                            @for (star of [1, 2, 3, 4, 5]; track star) {
+                                <svg 
+                                    (click)="setRating(star)"
+                                    [attr.data-rating]="star"
+                                    class="w-6 h-6 cursor-pointer"
+                                    [class.text-yellow-400]="star <= selectedRating"
+                                    [class.text-gray-300]="star > selectedRating"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path [attr.d]="star <= selectedRating ? 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' : 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'" />
+                                </svg>
+                            }
+                        </div>
+                        @if (reviewForm.get('rating')?.getError('required') && reviewForm.get('rating')?.touched) {
+                            <div class="text-red-500 text-xs mt-1">
+                                {{ 'doctorPage.ratingRequired' | translate }}
+                            </div>
+                        }
+                    </form>
+                    
+                    <button (click)="submit()" class="w-full bg-[#155B84] hover:bg-[#ffc107] mt-6 text-white font-medium py-2 px-4 text-sm sm:text-base rounded-full transition duration-300">
+                        {{ 'doctorPage.submitReview' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+    </div>
+</section>

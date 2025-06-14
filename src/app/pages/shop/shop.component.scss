@@ -1,0 +1,16 @@
+input[type="radio"]{
+    border-radius: 3px;
+    color: #513973;
+}
+h2{
+    position: relative;
+}
+h2::after{
+    content: "";
+    width: 100%;
+    height: 0.5px;
+    background-color: rgba(15, 15, 15, 0.301);
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+}

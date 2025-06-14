@@ -1,0 +1,138 @@
+<section class="bg-white text-gray-800 font-sans">
+  <!-- Hero Section -->
+  <div class="relative text-[#155b84] py-24">
+    <div class="container mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">{{ 'aboutPage.aboutScooby' | translate }}</h1>
+      <p class="text-xl md:text-2xl max-w-3xl mx-auto">{{ 'aboutPage.heroSubtitle' | translate }}</p>
+      <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+    </div>
+  </div>
+
+  <!-- Our Story -->
+  <div class="container mx-auto px-6 py-16">
+    <div class="flex flex-col md:flex-row items-center gap-12">
+      <div class="md:w-1/2">
+        <img src="https://res.cloudinary.com/dtny7jzz1/image/upload/v1718585098/Scooby/Vets/Rectangle%2011220%20%283%29.jpg.jpg" alt="Pets" class="rounded-2xl shadow-xl w-full h-auto border-4 border-[#FFC107]">
+      </div>
+      <div class="md:w-1/2">
+        <h2 class="text-3xl font-bold text-[#155B84] mb-6">{{ 'aboutPage.ourStory' | translate }}</h2>
+        <p class="text-lg mb-4 text-gray-700 leading-relaxed">
+          {{ 'aboutPage.storyPart1' | translate }}
+        </p>
+        <p class="text-lg text-gray-700 leading-relaxed">
+          {{ 'aboutPage.storyPart2' | translate }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Our Services -->
+  <div class="bg-gray-50 py-16">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-[#155B84] mb-12">{{ 'aboutPage.ourServices' | translate }}</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Adoption Service -->
+        <div class="bg-white p-8 rounded-xl shadow-md text-center border-t-4 border-[#FFC107] hover:shadow-lg transition-shadow">
+          <div class="text-[#155B84] text-5xl mb-4">🏠</div>
+          <h3 class="text-xl font-bold mb-3 text-[#155B84]">{{ 'aboutPage.adoptionService' | translate }}</h3>
+          <p class="text-gray-600">{{ 'aboutPage.adoptionDescription' | translate }}</p>
+          <a routerLink="/adoption" class="mt-4 inline-block text-[#FFC107] font-medium">{{ 'aboutPage.browsePets' | translate }}</a>
+        </div>
+        
+        <!-- Products Service -->
+        <div class="bg-white p-8 rounded-xl shadow-md text-center border-t-4 border-[#FFC107] hover:shadow-lg transition-shadow">
+          <div class="text-[#155B84] text-5xl mb-4">🛒</div>
+          <h3 class="text-xl font-bold mb-3 text-[#155B84]">{{ 'aboutPage.petStore' | translate }}</h3>
+          <p class="text-gray-600">{{ 'aboutPage.storeDescription' | translate }}</p>
+          <a routerLink="/shop" class="mt-4 inline-block text-[#FFC107] font-medium">{{ 'aboutPage.shopNow' | translate }}</a>
+        </div>
+        
+        <!-- Community Service -->
+        <div class="bg-white p-8 rounded-xl shadow-md text-center border-t-4 border-[#FFC107] hover:shadow-lg transition-shadow">
+          <div class="text-[#155B84] text-5xl mb-4">👥</div>
+          <h3 class="text-xl font-bold mb-3 text-[#155B84]">{{ 'aboutPage.community' | translate }}</h3>
+          <p class="text-gray-600">{{ 'aboutPage.communityDescription' | translate }}</p>
+          <a routerLink="/community" class="mt-4 inline-block text-[#FFC107] font-medium">{{ 'aboutPage.joinUs' | translate }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics -->
+  <div class="bg-[#155B84] text-white py-16">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-4 gap-8 text-center">
+        <div class="p-6">
+          <div class="text-4xl font-bold mb-2 text-[#FFC107]">5,000+</div>
+          <p>{{ 'aboutPage.petsAdopted' | translate }}</p>
+        </div>
+        <div class="p-6">
+          <div class="text-4xl font-bold mb-2 text-[#FFC107]">1,200+</div>
+          <p>{{ 'aboutPage.productsAvailable' | translate }}</p>
+        </div>
+        <div class="p-6">
+          <div class="text-4xl font-bold mb-2 text-[#FFC107]">30+</div>
+          <p>{{ 'aboutPage.partnerShelters' | translate }}</p>
+        </div>
+        <div class="p-6">
+          <div class="text-4xl font-bold mb-2 text-[#FFC107]">10,000+</div>
+          <p>{{ 'aboutPage.happyCustomers' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Choose Us -->
+  <div class="container mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-center text-[#155B84] mb-12">{{ 'aboutPage.whyChooseUs' | translate }}</h2>
+    <div class="grid md:grid-cols-2 gap-12">
+      <div class="flex items-start gap-6">
+        <div class="bg-[#FFC107] p-3 rounded-full text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2 text-[#155B84]">{{ 'aboutPage.vetChecks' | translate }}</h3>
+          <p class="text-gray-600">{{ 'aboutPage.vetChecksDesc' | translate }}</p>
+        </div>
+      </div>
+      
+      <div class="flex items-start gap-6">
+        <div class="bg-[#FFC107] p-3 rounded-full text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2 text-[#155B84]">{{ 'aboutPage.qualityProducts' | translate }}</h3>
+          <p class="text-gray-600">{{ 'aboutPage.qualityProductsDesc' | translate }}</p>
+        </div>
+      </div>
+      
+      <div class="flex items-start gap-6">
+        <div class="bg-[#FFC107] p-3 rounded-full text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2 text-[#155B84]">{{ 'aboutPage.ongoingSupport' | translate }}</h3>
+          <p class="text-gray-600">{{ 'aboutPage.ongoingSupportDesc' | translate }}</p>
+        </div>
+      </div>
+      
+      <div class="flex items-start gap-6">
+        <div class="bg-[#FFC107] p-3 rounded-full text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2 text-[#155B84]">{{ 'aboutPage.fastShipping' | translate }}</h3>
+          <p class="text-gray-600">{{ 'aboutPage.fastShippingDesc' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

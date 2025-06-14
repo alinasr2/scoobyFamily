@@ -1,0 +1,238 @@
+<section class="my-10">
+    <div class="container flex flex-wrap md:flex-nowrap gap-10 px-[20px] md:px-[50px]">
+      <div class="w-full flex flex-col items-center px-4">
+        <div class="w-full max-w-[700px] h-[400px] overflow-hidden rounded-xl border-b-4 border-[#155B84] mb-4">
+          <img [src]="imagesProfile[selectedIndex]" class="w-full h-full object-cover" alt="Main Image" />
+        </div>
+        <div class="flex gap-3 overflow-x-auto max-w-[700px]">
+          @for (image of imagesProfile; track $index) {
+            <div
+              class="cursor-pointer rounded-md overflow-hidden border-2"
+              [ngClass]="{
+                'border-[#155B84] border-b-4': $index === selectedIndex,
+                'border-transparent': $index !== selectedIndex
+              }"
+              (click)="selectedIndex = $index"
+            >
+              <img [src]="image" alt="Thumbnail" class="w-[100px] h-[70px] object-cover" />
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Booking Info -->
+      <div class="w-full md:mt-24">
+        <h2 class="text-[#155B84] font-extrabold text-[20px] sm:text-[22px] md:text-[24px]">{{serviceProfiles.name}}</h2>
+        <p class="font-semibold text-[16px] sm:text-[17px] md:text-[18px]">
+          {{'serviceDetails.From' | translate}} <span class="text-[#FDCA25]">${{serviceProfiles.from}}</span>
+          {{'serviceDetails.Up to' | translate}} <span class="text-[#FDCA25]">${{serviceProfiles.to}}</span>
+        </p>
+
+        <form [formGroup]="requestForm" class="w-full space-y-4 mt-3">
+          <!-- Service Type -->
+          <div>
+            <label for="serviceType" class="block mb-2 text-sm font-medium text-gray-900">{{'serviceDetails.Service Type' | translate}}</label>
+            <select formControlName="serviceType" id="serviceType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#155B84] focus:border-[#155B84] block w-full p-2.5">
+              <option selected disabled>{{'serviceDetails.Select service type' | translate}}</option>
+              <option value="Pet Walking">{{'serviceDetails.Pet Walking' | translate}}</option>
+              <option value="Pet Veterinary">{{'serviceDetails.Pet Veterinary' | translate}}</option>
+              <option value="Pet Training">{{'serviceDetails.Pet Training' | translate}}</option>
+              <option value="Pet Taxi">{{'serviceDetails.Pet Taxi' | translate}}</option>
+              <option value="Pet Sitting">{{'serviceDetails.Pet Sitting' | translate}}</option>
+              <option value="Pet Grooming">{{'serviceDetails.Pet Grooming' | translate}}</option>
+              <option value="Pet Boarding">{{'serviceDetails.Pet Boarding' | translate}}</option>
+            </select>
+            @if (requestForm.get('serviceType')?.getError('required') && requestForm.get('serviceType')?.touched) {
+              <p class="text-xs text-red-500 mt-1">{{'serviceDetails.Service Type Is Required' | translate}}</p>
+            }
+          </div>
+
+          <!-- Date -->
+          <div>
+            <label for="date" class="block mb-2 text-sm font-medium text-gray-900">{{'serviceDetails.Date' | translate}}</label>
+            <input formControlName="date" type="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#155B84] focus:border-[#155B84] block w-full p-2.5">
+            @if (requestForm.get('date')?.getError('required') && requestForm.get('date')?.touched) {
+              <p class="text-xs text-red-500 mt-1">{{'serviceDetails.Date Is Required' | translate}}</p>
+            }
+          </div>
+
+          <!-- Duration -->
+          <div>
+            <label for="duration" class="block mb-2 text-sm font-medium text-gray-900">{{'serviceDetails.Duration' | translate}}</label>
+            <select formControlName="duration" id="duration" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#155B84] focus:border-[#155B84] block w-full p-2.5">
+              <option selected disabled>{{'serviceDetails.Select duration' | translate}}</option>
+              <option value="Full Day">{{'serviceDetails.Full Day' | translate}}</option>
+              <option value="Half Day">{{'serviceDetails.Half Day' | translate}}</option>
+              <option value="More than 1 Day">{{'serviceDetails.More than 1 Day' | translate}}</option>
+            </select>
+            @if (requestForm.get('duration')?.getError('required') && requestForm.get('duration')?.touched) {
+              <p class="text-xs text-red-500 mt-1">{{'serviceDetails.Duration Is Required' | translate}}</p>
+            }
+          </div>
+
+          <!-- Submit Button -->
+          <button (click)="submitRequestForm()" type="submit" class="bg-[#155B84] block max-w-[300px] mx-auto transition-all duration-150 hover:bg-[#155b84e1] text-white py-3 rounded-full w-full font-medium mt-4">
+            {{'serviceDetails.Make Reservation' | translate}}
+          </button>
+        </form>
+        <!-- Success Message -->
+        @if (successMessage) {
+        <div class=" bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4" role="alert">
+            <span class="block sm:inline">{{ successMessage }}</span>
+            
+        </div>
+        }
+
+        <!-- Error Message -->
+        @if (errorMessage) {
+        <div class=" bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+            <span class="block sm:inline">{{ errorMessage }}</span>
+            
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Tabs Section -->
+    <div class="container mx-auto p-4 px-[20px] md:px-[50px]">
+      <!-- Tabs Navigation -->
+      <ul class="flex flex-wrap justify-center md:justify-start">
+        <li>
+          <a role="button" (click)="setActiveTab('tab1')" class="w-[130px] sm:w-[150px] md:w-[170px] h-[40px] sm:h-[45px] md:h-[50px] flex items-center justify-center text-center text-sm sm:text-base" [class]="activeTab === 'tab1' ? 'bg-[#155B84] text-white font-semibold ' : 'bg-[#EAE6EE] text-gray-600'">
+            {{'serviceDetails.Description' | translate}}
+          </a>
+        </li>
+        <li>
+          <a role="button" (click)="setActiveTab('tab2')" class="w-[130px] sm:w-[150px] md:w-[170px] h-[40px] sm:h-[45px] md:h-[50px] flex items-center justify-center text-center text-sm sm:text-base" [class]="activeTab === 'tab2' ? 'bg-[#155B84] text-white font-semibold ' : 'bg-[#EAE6EE] text-gray-600'">
+            {{'serviceDetails.Reviews' | translate}}
+          </a>
+        </li>
+      </ul>
+      <hr>
+
+      <!-- Tabs Content -->
+      <div class="bg-white p-4 mt-2">
+        <!-- Tab 1 Content -->
+        <div *ngIf="activeTab === 'tab1'" class="text-[#605C5C] font-normal text-sm sm:text-base">
+          <p>
+            <span class="text-[#155B84] font-bold text-[16px] sm:text-[17px] md:text-[19px]">{{serviceProfiles.question1[0]}}</span>
+            <br>
+            {{serviceProfiles.question1[1]}}
+          </p>
+          <br>
+          <p>
+            <span class="text-[#155B84] font-bold text-[16px] sm:text-[17px] md:text-[19px]">{{serviceProfiles.question2[0]}}</span>
+            <br>
+            {{serviceProfiles.question2[1]}}
+          </p>
+          <br>
+          <p>
+            <span class="text-[#155B84] font-bold text-[16px] sm:text-[17px] md:text-[19px]">{{serviceProfiles.question3[0]}}</span>
+            <br>
+            {{serviceProfiles.question3[1]}}
+          </p>
+        </div>
+
+        <!-- Tab 2 Content -->
+        @defer (on viewport) {
+        <div *ngIf="activeTab === 'tab2'">
+          <div class="flex flex-wrap gap-7 md:flex-nowrap">
+            <!-- Review Display -->
+            <div class="reviews flex flex-col gap-5 pt-5">
+              @for (review of serviceProfiles.reviewsOfService; track $index) {
+                <div class="review flex gap-3 py-2 items-start">
+                  <picture class="rounded-full w-12 h-12 md:w-16 md:h-16 overflow-hidden shrink-0">
+                    <img [src]="review.user.profileImage" class="w-full h-full object-cover" alt="User Image" />
+                  </picture>
+
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between flex-wrap">
+                      <h4 [routerLink]="['/account',review.user._id]" class="cursor-pointer font-medium text-[14px] sm:text-[17px] md:text-[20] text-[#155B84] flex items-center gap-2 hover:text-[#ffc107] transition">
+                        {{review.user.name}}
+                        @if (myId == review.user._id) {
+                          <h5 class="text-gray-500 text-base">({{'serviceDetails.Me' | translate}})</h5>
+                        }
+                      </h4>
+                      <p class="text-[10px] sm:text-[12px] md:text-[14px] text-[rgba(15,15,15,0.5)]">
+                        {{formatDate(review.createdAt)}}
+                      </p>
+                    </div>
+
+                    <div class="flex items-center gap-1">
+                      @for (star of [1, 2, 3, 4, 5]; track star) {
+                        @if (star <= review.rating) {
+                          <i class="fa-solid fa-star text-[#FAC32E] text-[10px] md:text-[12px]"></i>
+                        } @else {
+                          <i class="fa-solid fa-star text-gray-300 text-[10px] md:text-[12px]"></i>
+                        }
+                      }
+                    </div>
+                    <div class="flex justify-between">
+                      <p class="text-[14px] sm:text-[15px] text-[rgba(15,15,15,0.5)] font-normal mt-3">
+                        {{review.review}}
+                      </p>
+                      @if (myId == review.user._id) {
+                        <div class="flex gap-2">
+                          <button (click)="updateReview(review.rating, review.review, review._id)" class="px-2 py-1 h-fit flex gap-1 justify-center items-center rounded-md hover:bg-yellow-400 hover:text-white transition-all duration-300 text-yellow-400 border border-yellow-400">
+                            <i class="fa-regular fa-pen-to-square text-sm"></i>
+                            <h4 class="text-sm">{{'serviceDetails.Edit' | translate}}</h4>
+                          </button>
+                          <button (click)="deleteReview(review._id)" class="px-2 py-1 h-fit flex gap-1 justify-center items-center rounded-md hover:bg-red-500 hover:text-white transition-all duration-300 text-red-500 border border-red-500">
+                            <i class="fa-regular fa-trash-can text-sm"></i>
+                            <h4 class="text-sm">{{'serviceDetails.Delete' | translate}}</h4>
+                          </button>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <hr>
+              }
+            </div>
+
+            <!-- Review Form -->
+            <div class="max-w-md border border-gray-50 shadow-xl rounded-md h-fit w-full md:max-w-[240px] md:min-w-[350px] mx-auto p-6">
+              <h2 class="text-base sm:text-lg font-semibold text-[#155B84] mb-4">{{'serviceDetails.Write a Review' | translate}}</h2>
+
+              <form [formGroup]="reviewForm">
+                <textarea formControlName="review" rows="4" placeholder="{{'serviceDetails.Your Review' | translate}}" class="mt-3 w-full border border-gray-300 p-2 text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-[#155B84]"></textarea>
+                @if (reviewForm.get('review')?.getError('required') && reviewForm.get('review')?.touched) {
+                  <div class="text-red-500 text-xs mt-1">
+                    {{'serviceDetails.Review Is Required' | translate}}.
+                  </div>
+                }
+                <div class="flex items-center gap-1">
+                  @for (star of [1, 2, 3, 4, 5]; track star) {
+                    <svg
+                      (click)="setRating(star)"
+                      [attr.data-rating]="star"
+                      class="w-6 h-6 cursor-pointer"
+                      [class.text-yellow-400]="star <= selectedRating"
+                      [class.text-gray-300]="star > selectedRating"
+                      fill="currentColor"
+                      viewBox="0 0 20 20">
+                      <path [attr.d]="star <= selectedRating ? 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' : 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'" />
+                    </svg>
+                  }
+                </div>
+                @if (reviewForm.get('rating')?.getError('required') && reviewForm.get('rating')?.touched) {
+                  <div class="text-red-500 text-xs mt-1">
+                    {{'serviceDetails.Rating Is Required' | translate}}.
+                  </div>
+                }
+              </form>
+
+              <button (click)="submit()" class="w-full bg-[#155B84] hover:bg-[#fac32e] mt-6 text-white font-medium py-2 px-4 text-sm sm:text-base rounded-full transition duration-300">
+                {{'serviceDetails.Submit Review' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+        @placeholder {
+          <p>loading...</p>
+        }
+        
+      </div>
+    </div>
+  </section>

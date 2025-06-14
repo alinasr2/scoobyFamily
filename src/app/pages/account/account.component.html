@@ -1,0 +1,119 @@
+<section class="py-7">
+    <div class="container px-7">
+        <div class="flex flex-col sm:flex-row gap-4">
+            <picture class="mx-auto sm:mx-0 border-4 w-24 h-24 md:w-36 md:h-36 border-[#FFC107] rounded-full overflow-hidden">
+                <img class="w-full" [src]="user.profileImage || 'https://res.cloudinary.com/dhddxcwcr/image/upload/v1700416252/6558f05c2841e64561ce75d1_Cover.jpg'" alt="image">
+            </picture>
+            <div>
+                <div class="flex flex-wrap items-center gap-1 sm:gap-3">
+                    <h2 class="text-[25px] md:text-[32px] font-bold text-[#155b84]">{{user.name}}</h2>
+                    <span class="px-3 py-1 rounded-lg font-semibold text-[15px] text-white bg-[#FFC107] capitalize">{{user.role}}</span>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex flex-col">
+                        <span class="text-[#155b84] text-[24px] font-semibold">{{user.followers.length}}</span>
+                        <span class="text-[#7f8487] text-[14px] font-normal">{{ 'profilePage.followers' | translate }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[#155b84] text-[24px] font-semibold">{{user.following.length}}</span>
+                        <span class="text-[#7f8487] text-[14px] font-normal">{{ 'profilePage.following' | translate }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[#155b84] text-[24px] font-semibold">{{user.pets.length}}</span>
+                        <span class="text-[#7f8487] text-[14px] font-normal">{{ 'profilePage.pets' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+
+        <div class="mt-5 flex flex-col lg:flex-row gap-10">
+            <div class="border h-fit w-full lg:min-w-[250px] xl:min-w-[350px] mx-auto rounded-md">
+                <h3 class="text-[20px] font-semibold text-[#155b84] border-b p-4">{{ 'profilePage.contactInfo' | translate }}</h3>
+                <div class="p-4 flex flex-col gap-2">
+                    @if (user.email) {
+                    <div class="flex items-center gap-2 text-[16px] font-medium text-[#7f8487]">
+                        <i class="fas fa-envelope"></i>
+                        <p>{{user.email}}</p>
+                    </div>
+                    }
+                    @if (user.phoneNumber) {
+                    <div class="flex items-center gap-2 text-[16px] font-medium text-[#7f8487]">
+                        <i class="fas fa-phone"></i>
+                        <p>{{user.phoneNumber}}</p>
+                    </div>
+                    }
+                </div>
+            </div>
+                <div class="posts flex flex-col w-full gap-5 mx-auto">
+                <h3 class="text-[22px] font-semibold text-[#155b84] border-b pb-4">{{ 'profilePage.posts' | translate }}</h3>
+            @for (post of posts; track post.post._id) {
+                <div class="post shadow border min-w-full lg:min-w-[600px] xl:min-w-[700px] rounded-lg">
+                    <!-- Post Header -->
+                    <div class="p-4">
+                        <div class="flex gap-4">
+                            <picture class="flex-shrink-0 w-12 h-12 border-2 border-white outline outline-2 outline-[#155B84] rounded-full overflow-hidden">
+                                <img class="w-full h-full object-cover" [src]="post.post.userImage" alt="user">
+                            </picture>
+                            <div class="flex justify-between w-full items-center">
+                                <div>
+                                    <h3 class="text-[#155B84] text-[17.6px] font-semibold cursor-pointer hover:text-[#ffc107] transition">
+                                        {{post.post.userName}}
+                                    </h3>
+                                    <div class="text-[#7f8487] text-[14px] font-normal flex gap-2">
+                                        <div>{{getTimeAgo(post.post.createdAt)}}</div>
+                                        @if (post.post.updatedAt != post.post.createdAt) {
+                                            <div class="text-[#155B84] text-[13px]">{{ 'profilePage.edited' | translate }}</div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="icon w-6 h-6 rounded-full bg-gray-200 flex justify-center items-center">
+                                    @if (post.post.onlyMe) {
+                                        <i class="fa-solid fa-lock text-[#155B84] text-xs"></i>
+                                    } @else {
+                                        <i class="fa-solid fa-earth-americas text-[#155B84] text-xs"></i>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post Content -->
+                    <div class="px-4 pb-2">
+                        <hr class="my-2">
+                        <p class="text-[15.2px] text-[#7f8487] font-normal mt-3">
+                            {{post.post.description}}
+                        </p>
+                    </div>
+
+                    <!-- Post Image -->
+                    @if (post.post.postImage) {
+                        <img class="block w-full max-h-80 object-contain mt-2" [src]="post.post.postImage" alt="post image">
+                    }
+
+                    <!-- Post Footer -->
+                    <div class="p-4">
+                        <hr class="mb-3">
+                        @if (post.liked) {
+                            <div (click)="likeAndDislike(post.post._id)" class="flex items-center gap-2 ml-2 font-medium bg-[#FDF1F0] cursor-pointer transition-all duration-200 w-fit px-4 py-1 rounded-3xl text-[#E74C3C] group">
+                                <i class="like-icon far fa-heart fa-solid transition-all duration-300 text-[19px] group-hover:scale-110"></i>
+                                {{post.post.likesNumber || 0}} Likes
+                            </div>
+                        } @else {
+                            <div (click)="likeAndDislike(post.post._id)" class="flex items-center gap-2 ml-2 font-medium hover:bg-[#FDF1F0] cursor-pointer transition-all duration-200 w-fit px-4 py-1 rounded-3xl text-gray-700 group">
+                                <i class="like-icon far fa-heart transition-all duration-300 text-[19px] group-hover:scale-110"></i>
+                                {{post.post.likesNumber || 0}} Likes
+                            </div>
+                        }
+                    </div>
+                </div>
+            } @empty {
+                <div class="text-center py-10 text-gray-500">
+                    {{ 'profilePage.noPosts' | translate }}
+                </div>
+            }
+        </div>
+            </div>
+        </div>
+</section>

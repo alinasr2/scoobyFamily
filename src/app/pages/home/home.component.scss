@@ -1,0 +1,22 @@
+.card{
+    gap: 3px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.card h3{
+    font-weight: 500;
+}
+.card:hover{
+    background-color: #FAC32E;
+}
+.cards{
+    margin: 50px 0;
+}
+@media (min-width:1024px) {
+    .cards{
+        margin: 0;
+        transform: translateY(-50%);
+    }
+}
+
+

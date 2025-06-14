@@ -1,0 +1,134 @@
+<section class="py-[60px] bg-[#F9F4FF]">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col gap-8 md:flex-row">
+        <!-- Favourite Section -->
+        <div class="w-full md:w-[220px]">
+          <h2 class="text-[26px] md:text-[30px] font-semibold text-[#155b84] mb-4">{{ 'wishlist.favourite' | translate }}</h2>
+          <div class="flex flex-wrap gap-3">
+            <div (click)="type = 'Default'" 
+            [ngClass]="{
+              'wishlist-box':true, 
+              'active':type=='Default'}">
+              <h3 class="font-medium text-[18px]">{{ 'wishlist.default' | translate }}</h3>
+              <span class="text-[14px] mt-1 block">{{products.length}} {{ 'wishlist.items' | translate }} <i class="fa-solid fa-lock ms-1 text-[12px]"></i></span>
+            </div>
+
+            <div (click)="type='pets'" [ngClass]="{
+              'wishlist-box':true, 
+              'active':type =='pets'}">
+              <h3 class="font-medium text-[18px]">{{ 'wishlist.adopt_me' | translate }}</h3>
+              <span class="text-[14px] mt-1 block">{{pets.length}} {{ 'wishlist.items' | translate }} <i class="fa-solid fa-lock ms-1 text-[12px] text-[#D08B32]"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="w-full">
+         @if (type == 'Default') {
+            <div class="products grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 md:mt-14">
+              @for (product of products; track product._id) {
+                  <div class="product rounded-xl border hover:shadow-xl transition duration-300 border-[#DDD2D2] bg-white shadow-md p-4 relative">
+                      <div class="w-full h-[180px] flex items-center justify-center overflow-hidden rounded-lg bg-[#F9F4FF]">
+                        <img [src]="product.productImage" loading="lazy" class="h-full object-contain" alt="product">
+                      </div>
+                      <div class="mt-4">
+                        <h3 class="text-[17px] font-semibold text-[#155b84]">{{product.name}}</h3>
+                      </div>
+                      <div class="mt-4 flex justify-between items-center">
+                        <div class="text-[12px] text-[#155b84] font-medium">
+                          <span class="opacity-60">EGP</span> {{product.priceAfterDiscount}}
+                          <span class="ml-2 text-[#FAC32E]">{{product.discount}}% OFF</span>
+                        </div>
+                        <div class="flex gap-2">
+                          @if (inCart(product)) {
+                            <button 
+                              (click)="addToCart(product._id)" 
+                              class="border py-1 border-[#155b84] rounded-full bg-[#155b84] text-white hover:bg-transparent hover:text-[#155b84] transition-all duration-300 w-[60px] sm:w-[80px] flex gap-1 sm:gap-2 items-center justify-center"
+                            >
+                              <i class="fa-solid fa-cart-arrow-down text-[12px] sm:text-[14px]"></i> 
+                              <h5 class="font-normal sm:font-medium text-[12px] sm:text-[14px]">{{ 'productsPage.product_card.remove_from_cart' | translate }}</h5>
+                            </button>
+                          } @else {
+                            <button 
+                              (click)="addToCart(product._id)" 
+                              class="border py-1 border-[#155b84] rounded-full bg-transparent text-[#155b84] hover:bg-[#155b84] hover:text-white transition-all duration-300 w-[60px] sm:w-[80px] flex gap-1 sm:gap-2 items-center justify-center"
+                            >
+                              <i class="fa-solid fa-cart-plus text-[12px] sm:text-[14px]"></i> 
+                              <h5 class="font-normal sm:font-medium text-[12px] sm:text-[14px]">{{ 'productsPage.product_card.add_to_cart' | translate }}</h5>
+                            </button>
+                          }
+                          <button (click)="RemoveProductFromFavourite(product._id)" class="bg-red-600 text-white text-[12px] px-3 py-[5px] rounded-full hover:bg-red-700 transition font-medium">
+                            {{ 'wishlist.remove' | translate }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+              } @empty {
+                <div class="col-span-full flex flex-col items-center justify-center py-12 px-4 text-center">
+                  <h3 class="text-xl font-semibold text-[#155b84] mb-2">{{ 'wishlist.products_empty_title' | translate }}</h3>
+                  <p class="text-gray-500 max-w-md mb-6">{{ 'wishlist.products_empty_description' | translate }}</p>
+                  <button 
+                    routerLink="/shop"
+                    class="bg-[#155b84] hover:bg-[#1e7cb5] text-white font-medium py-2 px-6 rounded-full transition duration-300 flex items-center gap-2"
+                  >
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    {{ 'wishlist.browse_products' | translate }}
+                  </button>
+                </div>
+              }              
+            </div>
+         }
+         @else {
+          @defer (when type === 'pets'; on viewport) {
+            <div class="pets grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 md:mt-14">
+              @for (pet of pets; track pet.id) {
+                <div class="pet rounded-xl border hover:shadow-xl transition duration-300 border-[#DDD2D2] relative overflow-hidden">
+                  <button 
+                  (click)="RemovePetFromFavourite(pet.id)" 
+                      class="absolute top-2 right-2 bg-[#ff4d4f] hover:bg-[#e63946] text-white text-xs px-3 py-1 rounded-full shadow-lg transition-all duration-200">
+                      {{ 'wishlist.remove' | translate }}
+                  </button>
+              
+                  <img loading="lazy" class="w-full h-[280px] sm:h-[220px] object-fill" [src]="pet.petImage" alt="image">
+                  <div class="absolute  bottom-0 w-full backdrop-blur p-2">
+                      <span class="font-medium text-gray-200">{{pet.weight}} kg</span>
+                      <div class="flex justify-between">
+                          <h3 class="text-[#fac32e] font-semibold text-[20px]">
+                              {{pet.name.split(" ").slice(0,1).join("")}}
+                          </h3>
+                          <div class="flex gap-1 text-[#E6B20C]">
+                              <p class="bg-[#155b84] py-1 px-2 rounded-xl font-semibold text-[14px]">
+                                  {{pet.type.charAt(0).toUpperCase() + pet.type.slice(1)}}
+                              </p>
+                              <p class="bg-[#155b84] py-1 px-2 rounded-xl font-semibold text-[14px]">
+                                  {{pet.gender.charAt(0).toUpperCase() + pet.gender.slice(1)}}
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              } @empty {
+                <div class="col-span-full flex flex-col items-center justify-center py-12 px-4 text-center">
+                  <h3 class="text-xl font-semibold text-[#155b84] mb-2">{{ 'wishlist.pets_empty_title' | translate }}</h3>
+                  <p class="text-gray-500 max-w-md mb-6">{{ 'wishlist.pets_empty_description' | translate }}</p>
+                  <button 
+                    routerLink="/pets"
+                    class="bg-[#155b84] hover:bg-[#1e7cb5] text-white font-medium py-2 px-6 rounded-full transition duration-300 flex items-center gap-2"
+                  >
+                    <i class="fa-solid fa-paw"></i>
+                    {{ 'wishlist.browse_pets' | translate }}
+                  </button>
+                </div>
+              }
+            </div>
+          }
+          @placeholder {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 md:mt-14">
+              @for (i of [1,2,3]; track i) {
+                <div class="h-64 bg-gray-200 animate-pulse rounded-xl"></div>
+              }
+            </div>
+          }
+         }
+        </div>
+      </div>
+    </div>
+</section>

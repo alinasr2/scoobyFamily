@@ -1,0 +1,197 @@
+<section>
+    <header class="relative bg-[url('/images/bg-vet.png')] bg-cover bg-center h-[60vh] sm:h-[90vh] flex flex-col items-center justify-center text-white text-center px-4">
+        <h2 class="text-2xl md:text-[55px] font-bold mb-2 text-white" [innerHTML]="'vet.heroTitle' | translate"></h2>
+    </header>
+</section>
+
+<div class="services">
+    <div class="container">
+        <div class="cards flex justify-center items-center gap-[20px] md:gap-[30px]">
+            <div routerLink="/vet" [queryParams]="{'type':'doctors'}" [class]="{
+                'card': true,
+                'active': type == 'doctors'
+            }">
+                <img class="w-full mx-auto" src="/images/veterinaire.png" [alt]="'vet.doctors' | translate">
+                <h3 class="text-[20px] md:text-[24px] text-center">{{'vet.doctors' | translate}}</h3>
+            </div>
+            <div routerLink="/vet" [queryParams]="{'type':'clinics'}" [class]="{
+                'card': true,
+                'active': type == 'clinics'
+            }">
+                <img class="w-full mx-auto" src="/images/veterinary (3) 1.png" [alt]="'vet.clinics' | translate">
+                <h3 class="text-[20px] md:text-[24px] text-center">{{'vet.clinics' | translate}}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (type == 'clinics') {
+    <div class="best-clinics py-10 bg-gray-50">
+        <div class="container">
+            <div class="text-center px-4 sm:px-0 mb-10">
+                <h3 class="text-3xl sm:text-4xl text-[#155b84] font-bold sm:font-extrabold mb-3">{{'vet.meetBestClinics' | translate}}</h3>
+                <p class="text-lg sm:text-xl text-[#474646] max-w-2xl mx-auto">{{'vet.clinicsDescription' | translate}}</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+                @for (clinic of clinics; track clinic._id) {
+                    <div class="clinic pt-2 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <picture class="block aspect-square overflow-hidden">
+                            <img loading="lazy" [src]="clinic.vetImage || 'https://res.cloudinary.com/dtny7jzz1/image/upload/v1747036055/Scooby/Vets/307317566_194759356246324_1544695514704276495_n.jpg.jpg'" [alt]="'Clinic image'" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </picture>
+                        <div class="p-5 text-center">
+                            <h4 class="text-xl sm:text-2xl font-bold text-[#155b84] mb-2">{{clinic.vetName}}</h4>
+                            <p class="text-gray-600 mb-4 line-clamp-2">{{clinic.desc || 'Pet Clinic'}}</p>
+                            <button [routerLink]="['/clinic',clinic._id]" 
+                                    class="rounded-full py-2 px-6 font-medium text-[#155b84] bg-white border-2 border-[#155b84] hover:bg-[#155b84] hover:text-white transition-all duration-200">
+                                {{'vet.viewClinic' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+@else if (type == 'doctors') {
+    <div class="best-doctors py-10 bg-gray-50">
+        <div class="container">
+            <div class="text-center px-4 sm:px-0 mb-10">
+                <h3 class="text-3xl sm:text-4xl text-[#155b84] font-bold sm:font-extrabold mb-3">{{'vet.meetBestDoctors' | translate}}</h3>
+                <p class="text-lg sm:text-xl text-[#474646] max-w-2xl mx-auto">{{'vet.doctorsDescription' | translate}}</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+                @for (doctor of doctors; track doctor._id) {
+                    <div class="doctor pt-2 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <picture class="block aspect-square overflow-hidden">
+                            <img loading="lazy" [src]="doctor.doctorImage" [alt]="'Doctor image'" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </picture>
+                        <div class="p-5 text-center">
+                            <h4 class="text-xl sm:text-2xl font-bold text-[#155b84] mb-2">{{doctor.name}}</h4>
+                            <p class="text-gray-600 mb-4">{{doctor.description.split(' ').slice(0,3).join(' ')}}</p>
+                            <button [routerLink]="['/doctor',doctor._id]" 
+                                    class="rounded-full py-2 px-6 font-medium text-[#155b84] bg-white border-2 border-[#155b84] hover:bg-[#155b84] hover:text-white transition-all duration-200">
+                                {{'vet.viewDoctor' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+@else {
+    <div class="about bg-[#E8E1E1] py-16">
+        <div class="container">
+            <div class="text-center mb-12 px-4 sm:px-0">
+                <h2 class="text-4xl font-extrabold text-[#FAC32E] mb-4">{{'vet.whyChooseUs' | translate}}</h2>
+                <p class="text-xl text-[#888080] max-w-3xl mx-auto">
+                    {{'vet.whyChooseUsDesc' | translate}}
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+                <!-- Card 1 -->
+                <div class="flex gap-4 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                    <div class="text-4xl text-[#155b84]">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#155b84] mb-2">{{'vet.lovingCare' | translate}}</h3>
+                        <p class="text-gray-600">{{'vet.lovingCareDesc' | translate}}</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flex gap-4 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                    <div class="text-4xl text-[#155b84]">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#155b84] mb-2">{{'vet.tailoredServices' | translate}}</h3>
+                        <p class="text-gray-600">{{'vet.tailoredServicesDesc' | translate}}</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flex gap-4 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                    <div class="text-4xl text-[#155b84]">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#155b84] mb-2">{{'vet.trustedCommunity' | translate}}</h3>
+                        <p class="text-gray-600">{{'vet.trustedCommunityDesc' | translate}}</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flex gap-4 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                    <div class="text-4xl text-[#155b84]">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#155b84] mb-2">{{'vet.expertTeam' | translate}}</h3>
+                        <p class="text-gray-600">{{'vet.expertTeamDesc' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="best-doctors py-16 bg-[#155b84] text-white">
+        <div class="container">
+            <div class="text-center mb-10 px-4 sm:px-0">
+                <h3 class="text-3xl sm:text-4xl font-bold sm:font-extrabold mb-3">{{'vet.meetBestDoctors' | translate}}</h3>
+                <p class="text-lg sm:text-xl text-[#CDC6C6] max-w-2xl mx-auto">{{'vet.doctorsDescription' | translate}}</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+                @for (doctor of doctors.slice(0,4); track doctor._id) {
+                    <div class="doctor pt-2 bg-white/10 rounded-xl backdrop-blur-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                        <picture class="block aspect-square overflow-hidden">
+                            <img loading="lazy" [src]="doctor.doctorImage" [alt]="'Doctor image'" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </picture>
+                        <div class="p-5 text-center">
+                            <h4 class="text-xl sm:text-2xl font-bold mb-2">{{doctor.name}}</h4>
+                            <p class="text-[#CDC6C6] mb-4">{{doctor.description}}</p>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-10">
+                <button routerLink="/vet" [queryParams]="{'type':'doctors'}" 
+                        class="rounded-full py-3 px-8 text-lg font-bold bg-white text-[#155b84] hover:bg-[#155b84] hover:text-white border-2 border-white transition-all duration-200">
+                    {{'vet.seeAllDoctors' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="best-clinics py-16 bg-gray-50">
+        <div class="container">
+            <div class="text-center mb-10 px-4 sm:px-0">
+                <h3 class="text-3xl sm:text-4xl text-[#155b84] font-bold sm:font-extrabold mb-3">{{'vet.meetBestClinics' | translate}}</h3>
+                <p class="text-lg sm:text-xl text-[#474646] max-w-2xl mx-auto">{{'vet.clinicsDescription' | translate}}</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+                @for (clinic of clinics.slice(0,4); track clinic._id) {
+                    <div class="clinic pt-2 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <picture class="block aspect-square overflow-hidden">
+                            <img loading="lazy" [src]="clinic.vetImage" [alt]="'Clinic image'" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </picture>
+                        <div class="p-5 text-center">
+                            <h4 class="text-xl sm:text-2xl font-bold text-[#155b84] mb-2">{{clinic.vetName}}</h4>
+                            <p class="text-gray-600">{{clinic.desc || 'Clinic'}}</p>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-10">
+                <button routerLink="/vet" [queryParams]="{'type':'clinics'}" 
+                        class="rounded-full py-3 px-8 text-lg font-bold text-[#155b84] border-2 border-[#155b84] hover:bg-[#155b84] hover:text-white transition-all duration-200">
+                    {{'vet.seeAllClinics' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<app-slider-blog></app-slider-blog>

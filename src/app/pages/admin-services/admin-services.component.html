@@ -1,0 +1,64 @@
+<div class="card flex justify-center">
+    <button 
+        (click)="showDialog()" 
+        class="text-white text-[18px] font-medium mx-auto mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] bg-[#155b84] hover:bg-[#2A698F] transition">
+        <i class="fa-solid fa-plus"></i>
+        <h3 class="text-[18px]">{{ 'serviceManagement.addService' | translate }}</h3>
+    </button>
+
+    <p-dialog [header]="'serviceManagement.addNewService' | translate" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+        <!-- Service Type Dropdown -->
+        <p-floatlabel>
+            <p-dropdown [options]="serviceTypeOptions" (onChange)="checkInputs()" [(ngModel)]="selectedServiceType" 
+                       optionLabel="label" inputId="serviceType" 
+                       class="w-full border rounded"></p-dropdown>
+            <label for="serviceType">{{ 'serviceManagement.serviceType' | translate }}</label>
+        </p-floatlabel>
+        <!-- Price Per Dropdown -->
+        <p-floatlabel>
+            <p-dropdown [options]="pricePerOptions" (onChange)="checkInputs()" [placeholder]="'serviceManagement.pricePer' | translate" [(ngModel)]="selectedPricePer" 
+                       optionLabel="label" inputId="pricePer" 
+                       class="w-full border rounded"></p-dropdown>
+        </p-floatlabel>
+        <!-- City Input -->
+        <p-floatlabel>
+            <input pInputText id="city" [placeholder]="'serviceManagement.city' | translate" (change)="checkInputs()" [(ngModel)]="selectedCity" 
+                  class="w-full border p-2 rounded" floatLabel="always" autocomplete="off" />
+        </p-floatlabel>
+
+        <!-- Service Price Input -->
+        <p-floatlabel>
+            <input pInputText id="price" [placeholder]="'serviceManagement.servicePrice' | translate" (change)="checkInputs()" [(ngModel)]="servicePrice" 
+                  class="w-full border border-gray-200 p-2 rounded" autocomplete="off" type="number" />
+        </p-floatlabel>
+
+        <!-- Image Preview -->
+        <div class="mb-4" *ngIf="previewImage">
+            <img [src]="previewImage" alt="Preview" class="max-h-40 mx-auto rounded">
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-between">
+            <div>
+                <label for="image" class="bg-[#FFC107] text-white text-[18px] font-medium mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] transition cursor-pointer hover:bg-[#e0a800]">
+                    <i class="fa-regular fa-image"></i>
+                    <h3>{{ 'serviceManagement.serviceImage' | translate }}</h3>    
+                </label>
+                <input class="hidden" type="file" id="image" (change)="onFileSelected($event)" accept="image/*">
+            </div>
+            
+            <button 
+                [disabled]="isButtonDisabled" 
+                (click)="addService()"
+                class="text-white text-[18px] font-medium mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] transition bg-[#155b84] hover:bg-[#2A698F] disabled:bg-gray-400 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-check"></i>
+                <h3>{{ 'serviceManagement.add' | translate }}</h3>    
+            </button>
+        </div>
+    </p-dialog>
+</div>   
+
+<app-reusable-table
+    [data]="services"
+    [columns]="columns">
+</app-reusable-table>

@@ -1,0 +1,67 @@
+<div class="card flex justify-center">
+    <button 
+        (click)="showDialog()" 
+        class="text-white text-[18px] font-medium mx-auto mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] bg-[#155b84] hover:bg-[#2A698F] transition">
+        <i class="fa-solid fa-plus"></i>
+        <h3 class="text-[18px]">{{ 'productManage.addProduct' | translate }}</h3>
+    </button>
+
+    <p-dialog [header]="'productManage.addNewProduct' | translate" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }">
+        <p-floatlabel variant="on">
+            <input pInputText id="name" class="w-full" autocomplete="off" [(ngModel)]="name" (input)="checkInputs()" />
+            <label for="name">{{ 'productManage.productName' | translate }}</label>
+        </p-floatlabel>
+        
+        <p-floatlabel variant="on">
+            <input type="number" pInputText id="price" class="w-full" autocomplete="off" [(ngModel)]="price" (input)="checkInputs()" min="0" />
+            <label for="price">{{ 'productManage.productPrice' | translate }}</label>
+        </p-floatlabel>
+        
+        <p-dropdown 
+            [options]="categories" 
+            [(ngModel)]="category" 
+            (onChange)="checkInputs()"
+            [placeholder]="'productManage.selectCategory' | translate"
+            optionLabel="label"
+            optionValue="value"
+            styleClass="w-full">
+        </p-dropdown>
+        
+        <p-floatlabel variant="on">
+            <input type="number" pInputText id="quantity" class="w-full" autocomplete="off" [(ngModel)]="quantity" (input)="checkInputs()" min="0" />
+            <label for="quantity">{{ 'productManage.productQuantity' | translate }}</label>
+        </p-floatlabel>
+        
+        <p-floatlabel variant="on">
+            <input type="number" pInputText id="discount" class="w-full" autocomplete="off" [(ngModel)]="discount" (input)="checkInputs()" min="0" max="100" />
+            <label for="discount">{{ 'productManage.productDiscount' | translate }}</label>
+        </p-floatlabel>
+        
+        <div class="mb-4" *ngIf="previewImage">
+            <img [src]="previewImage" alt="Preview" class="max-h-40 mx-auto rounded">
+        </div>
+        
+        <div class="flex items-center justify-between">
+            <div>
+                <label for="image" class="bg-[#FFC107] text-white text-[18px] font-medium mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] transition cursor-pointer hover:bg-[#e0a800]">
+                    <i class="fa-regular fa-image"></i>
+                    <h3>{{ 'productManage.productImage' | translate }}</h3>    
+                </label>
+                <input class="hidden" type="file" id="image" (change)="onFileSelected($event)" accept="image/*">
+            </div>
+            
+            <button 
+                [disabled]="isButtonDisabled" 
+                (click)="createProduct()"
+                class="text-white text-[18px] font-medium mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] transition bg-[#155b84] hover:bg-[#2A698F] disabled:bg-gray-400 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-check"></i>
+                <h3>{{ 'productManage.addButton' | translate }}</h3>    
+            </button>
+        </div>
+    </p-dialog>
+</div>
+
+<app-reusable-table
+    [data]="products"
+    [columns]="columns">
+</app-reusable-table>

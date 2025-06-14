@@ -1,0 +1,66 @@
+<section class="py-16 min-h-[60vh] bg-gradient-to-b from-white to-blue-50 overflow-hidden">
+  <div class="container px-4 md:px-10 lg:px-20 xl:px-32 mx-auto">
+    <!-- Header with decorative elements -->
+    <div class="text-center max-w-4xl mx-auto relative">
+      <div class="absolute -top-6 -left-6 w-16 h-16 bg-amber-100 rounded-full opacity-30 blur-xl"></div>
+      <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-blue-100 rounded-full opacity-30 blur-xl"></div>
+      
+      <h2 class="font-extrabold text-3xl md:text-5xl text-[#155b84] mb-4 relative z-10">
+        <span class="relative inline-block">
+          <span class="relative z-10">{{ 'servicesPage.section_titles.main_heading' | translate }}</span>
+          <span class="absolute bottom-0 left-0 w-full h-2 bg-amber-200/50 -rotate-1 -z-0"></span>
+        </span>
+      </h2>
+      
+      <p class="text-xl md:text-2xl font-medium text-gray-600 mb-12">
+        {{ 'servicesPage.section_titles.sub_heading' | translate }}
+        <span class="inline-block ml-2 animate-bounce">🐾</span>
+      </p>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      @for (service of servicesProfile; track service._id) {
+        <div 
+          [routerLink]="['/serviceProfile',service._id]" 
+          class="card group bg-white border border-gray-200 rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col overflow-hidden hover:-translate-y-2 relative"
+        >
+          <!-- Decorative corner accent -->
+          <div class="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+            <div class="absolute -top-8 -right-8 w-32 h-32 bg-blue-100/30 group-hover:bg-blue-200/50 rounded-full transition-all duration-500"></div>
+          </div>
+          
+          <!-- Service Icon with background -->
+          <div class="flex items-center justify-center p-8 pb-4">
+            <div class="p-5 bg-blue-50 rounded-2xl group-hover:bg-blue-100/50 transition-colors duration-300">
+              <img 
+                [src]="service.icon" 
+                alt="service icon" 
+                class="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-300 group-hover:scale-110" 
+              />
+            </div>
+          </div>
+          
+          <!-- Service Content -->
+          <div class="desc text-center border-t border-gray-200 p-4 sm:p-6 flex flex-col justify-center items-center flex-grow">
+            <h3 class="text-xl md:text-2xl font-bold text-[#155b84] mb-2 group-hover:text-blue-600 transition-colors">
+              {{service.name}}
+            </h3>
+            <p class="text-sm md:text-base text-gray-600 font-medium mb-4 line-clamp-2">
+              {{service.description}}
+            </p>
+            
+            <!-- Animated CTA -->
+            <div class="mt-auto w-full">
+              <div class="inline-flex items-center text-blue-500 font-semibold text-sm md:text-base group-hover:text-blue-600 transition-colors">
+                <span>{{ 'servicesPage.buttons.learn_more' | translate }}</span>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

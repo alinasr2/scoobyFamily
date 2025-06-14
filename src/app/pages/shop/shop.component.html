@@ -1,0 +1,168 @@
+<section class="py-[40px] bg-gray-50">
+  <div class="container px-2 lg:px-5">
+    <h2 class="text-[22px] md:text-[26px] font-medium text-[#155b84] mb-6">{{ 'productsPage.section_titles.special_offers' | translate }}</h2>
+    
+    <owl-carousel-o [options]="customOptions">
+      <ng-container *ngFor="let offer of offers">
+        <ng-template carouselSlide [id]="offer._id">
+          <div class="rounded-xl border border-[#DDD2D2] overflow-hidden hover:shadow-lg transition duration-300 my-6">
+            <img [src]="offer.offerImage" 
+                class="w-full h-[200px] object-cover" 
+                alt="Special Offer">
+          </div>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+  </div>
+</section>
+
+<section class="py-[60px]">
+  <div class="container flex gap-5">
+    <div class="w-[200px] hidden md:block">
+      <h2 class="text-[22px] font-medium text-[#155b84]">{{ 'productsPage.section_titles.categories' | translate }}</h2>
+      <div class="categories mt-6 flex flex-col gap-2">
+        <div class="cat flex items-center gap-2">
+          <input [checked]="selectedCategory === ''" (change)="getAllProducts(1)" type="radio" name="category" id="All">
+          <label for="All" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.section_titles.all_products' | translate }}</label>
+        </div>
+        <div class="cat flex items-center gap-2">
+          <input [checked]="selectedCategory === 'medicine'" (change)="getProductsByQuery(1, 'medicine')" type="radio" name="category" id="Medicines">
+          <label for="Medicines" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.medicine' | translate }}</label>
+        </div>
+        <div class="cat flex items-center gap-2">
+          <input [checked]="selectedCategory === 'food'" (change)="getProductsByQuery(1, 'food')" type="radio" name="category" id="Food">
+          <label for="Food" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.food' | translate }}</label>
+        </div>
+        <div class="cat flex items-center gap-2">
+          <input [checked]="selectedCategory === 'toys'" (change)="getProductsByQuery(1, 'toys')" type="radio" name="category" id="Toys">
+          <label for="Toys" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.toys' | translate }}</label>
+        </div>
+        <div class="cat flex items-center gap-2">
+          <input [checked]="selectedCategory === 'grooming'" (change)="getProductsByQuery(1, 'grooming')" type="radio" name="category" id="Grooming">
+          <label for="Grooming" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.grooming' | translate }}</label>
+        </div>
+        <div class="cat flex items-center gap-2">
+          <input [checked]="selectedCategory === 'accessories'" (change)="getProductsByQuery(1, 'accessories')" type="radio" name="category" id="Accessories">
+          <label for="Accessories" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.accessories' | translate }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full px-3 md:px-0 xl:px-20">
+      <div class="flex">
+        <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
+        <button id="dropdown-button" data-dropdown-toggle="dropdown" class="shrink-0 z-10 inline-flex md:hidden items-center py-2.5 px-2 text-xs font-normal text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800" type="button">All categories <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg></button>
+        <div id="dropdown" class="px-5 pb-4 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+          <div class="categories mt-6 flex flex-col gap-2">
+            <label for="All" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.section_titles.all_products' | translate }}</label>
+            <label for="Medicines" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.medicine' | translate }}</label>
+            <label for="Food" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.food' | translate }}</label>
+            <label for="Toys" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.toys' | translate }}</label>
+            <label for="Grooming" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.grooming' | translate }}</label>
+            <label for="Accessories" class="text-[rgb(15,15,15)] text-[16px] font-normal">{{ 'productsPage.categories.accessories' | translate }}</label>
+          </div>
+        </div>
+        <div class="relative w-full">
+          <input type="search" id="search-dropdown"
+            class="md:rounded-l-xl block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-[#155b84] focus:ring-[#155b84] focus:border-[#155b84] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-[#155b84]"
+            placeholder="{{ 'productsPage.search.placeholder' | translate }}" #input required />
+          <button type="button"
+            (click)="getProductsBySearch(input.value)"
+            class="w-[70px] absolute top-0 end-0 p-2.5 h-full text-sm font-medium text-white bg-[#155b84] rounded-e-lg border border-[#155b84] hover:bg-[#402c5a] focus:ring-4 focus:outline-none focus:ring-[#7a60a6] dark:bg-[#155b84] dark:hover:bg-[#402c5a] dark:focus:ring-[#7a60a6]">
+            <svg class="w-4 h-4 m-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="products grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mx-4 sm:mx-0 sm:gap-5 mt-14">
+        @for (product of products; track product._id) {
+          <div class="product rounded-xl border hover:shadow-xl transition duration-300 border-[#DDD2D2] p-3 sm:p-5 relative">
+            @if (product.discount) {
+              <span class="px-2 py-1 rounded-md absolute top-2 left-2 bg-[#EF4444] text-white text-[12px] font-medium">{{product.discount}}%</span>
+            }
+            <div role="button" (click)="addToFav(product._id)" 
+              [ngClass]="{
+                'flex items-center justify-center w-8 h-8 rounded-full  absolute p-2 top-3 right-3':true,
+                'bg-[#FFA33C] text-white':isFav(product),
+                'bg-gray-100':!isFav(product),
+              }">
+              <i class="fa-regular fa-heart block z-3 text-[18px]"></i>
+            </div>
+            <picture><img [src]="product.productImage" class="w-full m-auto h-[170px] sm:h-[240px]" alt="image"></picture>
+            <p class="font-light sm:font-normal text-[14px] sm:text-[17px] mt-1 text-[#7f8487] capitalize"> {{product.category}} </p>
+            <h3 class="text-[15px] sm:text-[18px] font-normal sm:font-medium text-[#155b84] capitalize"> {{product.name}} </h3>
+            <div class="flex justify-between">
+              <p class="flex  gap-1 items-center">
+                <span class="font-semibold sm:font-bold text-[13px] text-[#155b84] sm:text-[20px]"> {{product.priceAfterDiscount}} L.E </span>
+                <span class="text-[11px] font-medium sm:font-semibold sm:ms-2 sm:mt-1 line-through text-[rgba(15,15,15,0.5)]"> {{product.price}} L.E </span> 
+              </p>
+              @if (inCart(product)) {
+                <button 
+                  (click)="addToCart(product._id)" 
+                  class="border py-1 border-[#155b84] rounded-full bg-[#155b84] text-white hover:bg-transparent hover:text-[#155b84] transition-all duration-300 w-[60px] sm:w-[100px] flex gap-1 sm:gap-2 items-center justify-center"
+                >
+                  <i class="fa-solid fa-cart-arrow-down text-[12px] sm:text-[14px]"></i> 
+                  <h5 class="font-normal sm:font-medium text-[12px] sm:text-[14px]">{{ (inCart(product) ? 'productsPage.product_card.remove_from_cart' : 'productsPage.product_card.add_to_cart') | translate }}</h5>
+                </button>
+              } @else {
+                <button 
+                  (click)="addToCart(product._id)" 
+                  class="border py-1 border-[#155b84] rounded-full bg-transparent text-[#155b84] hover:bg-[#155b84] hover:text-white transition-all duration-300 w-[60px] sm:w-[100px] flex gap-1 sm:gap-2 items-center justify-center"
+                >
+                  <i class="fa-solid fa-cart-plus text-[12px] sm:text-[14px]"></i> 
+                  <h5 class="font-normal sm:font-medium text-[12px] sm:text-[14px]">{{ (inCart(product) ? 'productsPage.product_card.remove_from_cart' : 'productsPage.product_card.add_to_cart') | translate }}</h5>
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="flex items-center justify-center gap-2 mt-16">
+        @if (totalPages > 1) {
+          <button 
+            class="w-9 h-9 flex items-center justify-center rounded-full bg-white border border-[#e0e0e0] text-[#155b84] hover:bg-[#f5f5f5] transition-all duration-200 shadow-sm"
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1"
+            [class.opacity-50]="currentPage === 1"
+            [class.cursor-not-allowed]="currentPage === 1"
+            >
+            <i class="fas fa-chevron-left text-xs  rtl:rotate-180"></i>  
+          </button>        
+          
+          @for (pag of [].constructor(totalPages); track $index) {
+            @if (currentPage == $index + 1) {
+              <button 
+                class="w-9 h-9 flex items-center justify-center rounded-full bg-[#155b84] text-white text-sm font-medium shadow-md hover:shadow-lg transition-all duration-200">
+                {{$index + 1}}
+              </button>
+            }
+            @else {
+              <button 
+                class="w-9 h-9 flex items-center justify-center rounded-full bg-white border border-[#e0e0e0] text-gray-600 text-sm font-medium hover:bg-[#f5f5f5] transition-all duration-200 shadow-sm"
+                (click)="changePage($index + 1)">
+                {{$index + 1}}
+              </button>
+            }
+          }
+          
+          <button 
+            class="w-9 h-9 flex items-center justify-center rounded-full bg-white border border-[#e0e0e0] text-[#155b84] hover:bg-[#f5f5f5] transition-all duration-200 shadow-sm"
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages"
+            [class.opacity-50]="currentPage === totalPages"
+            [class.cursor-not-allowed]="currentPage === totalPages">
+            <i class="fas fa-chevron-right text-xs  rtl:rotate-180"></i>  
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+

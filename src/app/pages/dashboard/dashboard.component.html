@@ -1,0 +1,71 @@
+<div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+    <div class="p-5 rounded-md bg-[#EF4444] cursor-pointer transition-all duration-200 hover:scale-[101%]">
+        <div class="flex justify-between items-center text-white">
+            <span class="text-[13px] sm:text-[14px] md:text-[15px] font-normal">{{ 'dashboardPage.totalSales' | translate }}</span>
+            <i class="fa-solid fa-dollar-sign text-[25px] sm:text-[30px] md:text-[35px] font-black"></i>
+        </div>
+        <div class="text-white text-[20px] sm:text-[24px] md:text-[28px] font-bold">
+            {{totalSales}} L.E
+        </div>
+    </div>
+
+    <div class="p-5 rounded-md bg-[#3B82F6] cursor-pointer transition-all duration-200 hover:scale-[101%]">
+        <div class="flex justify-between items-center text-white">
+            <span class="text-[13px] sm:text-[14px] md:text-[15px] font-normal">{{ 'dashboardPage.totalProducts' | translate }}</span>
+            <i class="fa-solid fa-basket-shopping text-[25px] sm:text-[30px] md:text-[35px] font-black"></i>
+        </div>
+        <div class="text-white text-[20px] sm:text-[24px] md:text-[28px] font-bold">
+            {{totalProducts}} {{ 'dashboardPage.item' | translate }}
+        </div>
+    </div>
+
+    <div class="p-5 rounded-md bg-[#22C55E] cursor-pointer transition-all duration-200 hover:scale-[101%]">
+        <div class="flex justify-between items-center text-white">
+            <span class="text-[13px] sm:text-[14px] md:text-[15px] font-normal">{{ 'dashboardPage.totalPets' | translate }}</span>
+            <i class="fa-solid fa-dog text-[25px] sm:text-[30px] md:text-[35px] font-black"></i>
+        </div>
+        <div class="text-white text-[20px] sm:text-[24px] md:text-[28px] font-bold">
+            {{totalPets}} {{ 'dashboardPage.pet' | translate }}
+        </div>
+    </div>
+
+    <div class="p-5 rounded-md bg-[#F97316] cursor-pointer transition-all duration-200 hover:scale-[101%]">
+        <div class="flex justify-between items-center text-white">
+            <span class="text-[13px] sm:text-[14px] md:text-[15px] font-normal">{{ 'dashboardPage.totalOrders' | translate }}</span>
+            <i class="fa-regular fa-money-bill-1 text-[25px] sm:text-[30px] md:text-[35px] font-black"></i>
+        </div>
+        <div class="text-white text-[20px] sm:text-[24px] md:text-[28px] font-bold">
+            {{totalOrders}} {{ 'dashboardPage.order' | translate }}
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row p-4 gap-6">
+    <!-- Orders Chart -->
+    <div class="w-full lg:w-1/2 bg-white rounded-lg shadow">
+        <div class="card p-4 h-full">
+            <h2 class="text-2xl font-bold mb-4 text-[#155b84]">{{ 'dashboardPage.orders' | translate }}</h2>
+            <div class="h-[300px] sm:h-[350px]">
+                <p-chart 
+                    type="bar" 
+                    [data]="ordersData" 
+                    [options]="chartOptions"
+                ></p-chart>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Chart -->
+    <div class="w-full lg:w-1/2 bg-white rounded-lg shadow">
+        <div class="card p-4 h-full">
+            <h2 class="text-2xl font-bold mb-4 text-[#155b84]">{{ 'dashboardPage.sales' | translate }}</h2>
+            <div class="h-[300px] sm:h-[350px]">
+                <p-chart 
+                    type="bar" 
+                    [data]="salesData" 
+                    [options]="horizontalChartOptions"
+                ></p-chart>
+            </div>
+        </div>
+    </div>
+</div>

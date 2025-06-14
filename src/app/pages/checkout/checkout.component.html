@@ -1,0 +1,139 @@
+<div class="max-w-6xl mx-auto p-6">
+  @if (cart) {
+    <h2 class="text-2xl font-bold mb-1 text-[#155b84]">{{ 'checkout.checkout' | translate }} <span class="text-gray-500 text-sm">({{cart.numOfCartItems}} {{ 'checkout.itemsInCart' | translate }})</span></h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <!-- Shipping Info -->
+      <form [formGroup]="checkoutForm">
+        <h3 class="text-lg font-semibold mb-4 text-[#155b84]">{{ 'checkout.shippingInformation' | translate }}</h3>
+        <div class="space-y-4">
+          <!-- Phone Number Field -->
+          <div>
+            <input 
+              formControlName="phone" 
+              type="tel" 
+              placeholder="{{ 'checkout.phoneNumber' | translate }}" 
+              [class.border-red-500]="checkoutForm.get('phone')?.invalid && (checkoutForm.get('phone')?.dirty || checkoutForm.get('phone')?.touched)"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-yellow-500" 
+            />
+            @if (checkoutForm.get('phone')?.invalid && (checkoutForm.get('phone')?.dirty || checkoutForm.get('phone')?.touched)) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (checkoutForm.get('phone')?.invalid) {
+                  <span>{{ 'checkout.validPhoneRequired' | translate }}</span>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- City and Postal Code Fields -->
+          <div class="grid grid-cols-2 gap-4">
+            <!-- City Field -->
+            <div>
+              <input 
+                formControlName="city" 
+                type="text" 
+                placeholder="{{ 'checkout.city' | translate }}" 
+                [class.border-red-500]="checkoutForm.get('city')?.invalid && (checkoutForm.get('city')?.dirty || checkoutForm.get('city')?.touched)"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-yellow-500" 
+              />
+              @if (checkoutForm.get('city')?.invalid && (checkoutForm.get('city')?.dirty || checkoutForm.get('city')?.touched)) {
+                <div class="text-red-500 text-sm mt-1">
+                  @if (checkoutForm.get('city')?.errors?.['required']) {
+                    <span>{{ 'checkout.cityRequired' | translate }}</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Postal Code Field -->
+            <div>
+              <input 
+                formControlName="postalcode" 
+                type="text" 
+                placeholder="{{ 'checkout.postalCode' | translate }}" 
+                [class.border-red-500]="checkoutForm.get('postalcode')?.invalid && (checkoutForm.get('postalcode')?.dirty || checkoutForm.get('postalcode')?.touched)"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-yellow-500" 
+              />
+              @if (checkoutForm.get('postalcode')?.invalid && (checkoutForm.get('postalcode')?.dirty || checkoutForm.get('postalcode')?.touched)) {
+                <div class="text-red-500 text-sm mt-1">
+                  @if (checkoutForm.get('postalcode')?.errors?.['required']) {
+                    <span>{{ 'checkout.postalCodeRequired' | translate }}</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Notes Field (optional) -->
+          <textarea 
+            formControlName="details" 
+            rows="4" 
+            placeholder="{{ 'checkout.deliveryNotes' | translate }}" 
+            class="w-full resize-none border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-yellow-500"
+          ></textarea>
+        </div>
+      </form>
+
+      <!-- Order Summary -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-[#155b84]">{{ 'checkout.orderSummary' | translate }}</h3>
+        <div class="space-y-4">
+          <!-- Products -->
+          @for (product of cart.data.cartItems; track product._id) {
+            <div class="flex items-start justify-between border rounded-lg p-4">
+              <img [src]="product.product.productImage" alt="product" class="w-16 h-16 object-cover" />
+              <div class="flex-1 ms-4">
+                <h4 class="font-semibold">{{product.product.name}}</h4>
+                <p class="text-sm text-gray-500 line-through">L.E {{product.price}}</p>
+                <p class="text-sm font-bold">L.E {{product.product.priceAfterDiscount }} <span class="text-green-600 text-xs ms-1">{{product.product.discount}}% OFF</span></p>
+                <p class="text-sm text-gray-600 mt-1">{{ 'checkout.quantity' | translate }}: {{product.quantity}}</p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Summary -->
+        <div class="mt-6 border-t pt-4 text-sm text-gray-700 space-y-2">
+          <div class="flex justify-between">
+            <span>{{ 'checkout.subtotal' | translate }} ({{cart.numOfCartItems}} {{ 'checkout.items' | translate }})</span>
+            <span>L.E {{cart.data.totalCartPrice}}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>{{ 'checkout.shippingFee' | translate }}</span>
+            <span class="text-green-600 font-semibold">{{ 'checkout.free' | translate }}</span>
+          </div>
+          <div class="flex justify-between font-bold text-base border-t pt-2">
+            <span>{{ 'checkout.totalInclusive' | translate }}</span>
+            <span>L.E {{cart.data.totalPriceAfterDiscount || cart.data.totalCartPrice}}</span>
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="mt-6">
+          <label class="flex items-center space-x-2 mb-2">
+            <input type="radio" name="payment" class="form-radio" checked />
+            <span>{{ 'checkout.cashOnDelivery' | translate }}</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="payment" class="form-radio" disabled />
+            <span class="flex items-center space-x-1">{{ 'checkout.payOnline' | translate }}
+              <span class="text-yellow-600 text-xs ms-1 bg-yellow-100 px-2 py-0.5 rounded">{{ 'checkout.comingSoon' | translate }}</span>
+            </span>
+          </label>
+        </div>
+
+        <!-- Place Order -->
+        <button (click)="checkoutSession()" class="mt-6 w-full bg-[#155b84] hover:bg-[#2b5168] text-white py-3 rounded-lg font-semibold text-lg">{{ 'checkout.placeOrder' | translate }}</button>
+      </div>
+    </div>
+  }
+  @else {
+    <div class="text-center py-12">
+      <h2 class="text-2xl font-bold text-[#155b84] mb-4">{{ 'checkout.yourCartIsEmpty' | translate }}</h2>
+      <p class="text-gray-600 mb-6">{{ 'checkout.emptyCartMessage' | translate }}</p>
+      <a routerLink="/products" class="inline-block bg-[#155b84] hover:bg-[#2b5168] text-white px-6 py-2 rounded-lg font-semibold">
+        {{ 'checkout.browseProducts' | translate }}
+      </a>
+    </div>
+  }
+</div>

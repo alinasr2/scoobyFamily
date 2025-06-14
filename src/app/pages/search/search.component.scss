@@ -1,0 +1,31 @@
+input::placeholder{
+    color: hsla(0, 0%, 6%, 0.608);
+}
+@media (max-width:480px) {
+    .cards .card{
+        overflow: hidden;
+        picture{
+            width: 100%;
+        }
+        
+    }
+}
+@media (max-width:767px) {
+    .cards .card{
+        flex-wrap: wrap;
+        >div{
+            padding: 15px 10px;
+            margin: auto;
+        }
+    }
+}
+@media (max-width:1024px) {
+    section > .container{
+        flex-wrap: wrap;
+        gap: 50px;
+        .left , .right{
+            margin: auto;
+        }
+    }
+    
+}

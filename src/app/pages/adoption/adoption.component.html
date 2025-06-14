@@ -1,0 +1,324 @@
+<section class="min-h-screen">
+  <!-- Hero Section -->
+  <header class="relative bg-[url('/images/background2.png')] bg-cover bg-center h-[60vh] sm:h-[90vh] flex flex-col items-center justify-center text-white text-center px-4">
+    <h2 class="text-[27px] md:text-[55px] font-bold mb-2 text-[#ffc107]">
+      {{'adoption.heroTitle' | translate}}
+    </h2>
+  </header>
+
+  <!-- Category Cards -->
+  <div class="services">
+    <div class="container px-[30px] md:px-[100px] lg:px-[250px] mx-auto">
+      <div class="cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-[20px] md:gap-[30px] mx-auto">
+        <!-- Dog Card -->
+        @if (slider == 1) {
+          <div (click)="slider = 1" class="card p-4 md:px-[50px] md:py-[30px] bg-[#155b84] rounded-3xl shadow-lg flex flex-col justify-center items-center">
+            <img class="w-full mx-auto" src="/images/dog (4) 1.png" [alt]="'adoption.dogs' | translate" loading="lazy">
+            <h3 class="text-[20px] text-white md:text-[24px] text-center">
+              {{'adoption.dogs' | translate}}
+            </h3>
+          </div>
+        } @else {
+          <div (click)="slider = 1" class="card p-4 md:px-[50px] md:py-[30px] bg-[#F1F0F0] rounded-3xl shadow-lg flex flex-col justify-center items-center">
+            <img class="w-full mx-auto" src="/images/dog (4) 1.png" [alt]="'adoption.dogs' | translate" loading="lazy">
+            <h3 class="text-[20px] text-[#155b84] md:text-[24px] text-center">
+              {{'adoption.dogs' | translate}}
+            </h3>
+          </div>
+        }
+
+        <!-- Cat Card -->
+        @if (slider == 2) {
+          <div (click)="slider = 2" class="card p-4 md:px-[50px] md:py-[30px] bg-[#155b84] rounded-3xl shadow-lg flex flex-col justify-center items-center">
+            <img class="w-full mx-auto" src="/images/munchkin 1.png" [alt]="'adoption.cats' | translate" loading="lazy">
+            <h3 class="text-[20px] text-white md:text-[24px] text-center">
+              {{'adoption.cats' | translate}}
+            </h3>
+          </div>
+        } @else {
+          <div (click)="slider = 2" class="card p-4 md:px-[50px] md:py-[30px] bg-[#F1F0F0] rounded-3xl shadow-lg flex flex-col justify-center items-center">
+            <img class="w-full mx-auto" src="/images/munchkin 1.png" [alt]="'adoption.cats' | translate" loading="lazy">
+            <h3 class="text-[20px] text-[#155b84] md:text-[24px] text-center">
+              {{'adoption.cats' | translate}}
+            </h3>
+          </div>
+        }
+
+        <!-- Shelter Card -->
+        @if (slider == 3) {
+          <div (click)="slider = 3" class="card p-4 md:px-[50px] md:py-[30px] bg-[#155b84] rounded-3xl shadow-lg flex flex-col justify-center items-center">
+            <img class="w-full mx-auto" src="/images/animal-shelter 1.png" [alt]="'adoption.shelters' | translate" loading="lazy">
+            <h3 class="text-[20px] text-white md:text-[24px] text-center">
+              {{'adoption.shelters' | translate}}
+            </h3>
+          </div>
+        } @else {
+          <div (click)="slider = 3" class="card p-4 md:px-[50px] md:py-[30px] bg-[#F1F0F0] rounded-3xl shadow-lg flex flex-col justify-center items-center">
+            <img class="w-full mx-auto" src="/images/animal-shelter 1.png" [alt]="'adoption.shelters' | translate" loading="lazy">
+            <h3 class="text-[20px] text-[#155b84] md:text-[24px] text-center">
+              {{'adoption.shelters' | translate}}
+            </h3>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Content -->
+  @if (slider == 1) {
+    <!-- Dogs Content -->
+    <div class="TopCollectionsDogs">
+      <div class="container px-[30px]">
+        <h2 class="font-extrabold text-[25px] md:text-[30px] text-[#155b84]">
+          {{'adoption.topCollections' | translate}}
+        </h2>
+        <div class="pets mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-2">
+          @for (pet of topCollectionDogs.slice(0,3); track pet._id) {
+            <div class="pet shadow-lg rounded-xl relative overflow-hidden border">
+              <div role="button" (click)="addToFavourite(pet._id)" 
+                   [ngClass]="{
+                     'flex items-center justify-center w-8 h-8 rounded-full absolute p-2 top-3 right-3': true,
+                     'bg-[#FFA33C] text-white': isFavorite(pet),
+                     'bg-white': !isFavorite(pet)
+                   }">
+                <i class="fa-regular fa-heart block z-3 text-[18px]"></i>
+              </div>
+              <img [src]="pet.petImage" class="w-full h-[220px] object-cover" [alt]="'Photo of ' + pet.name" loading="lazy">
+              <div class="p-3">
+                <h2 class="font-semibold text-[24px]">{{pet.name}}</h2>
+                <p class="font-medium text-[18px] text-[#747070]">{{pet.profileBio}}</p>
+              </div>
+            </div>
+          }
+          <div role="button" [routerLink]="['/pets']" [queryParams]="{type:'dogs'}" class="shadow-lg rounded-xl relative overflow-hidden bg-[#155b84]">
+            <picture class="flex flex-col items-center h-[220px] border-b justify-center">
+              <img src="/images/paw 1.png" class="w-[100px] block" [alt]="'adoption.dogs' | translate" loading="lazy">
+              <p class="font-medium text-[22px] text-white text-center">
+                {{'adoption.moreAvailable' | translate}} ({{'adoption.dogs' | translate}})
+              </p>
+            </picture>
+            <div class="p-3">
+              <h2 class="font-semibold text-white text-center text-[22px]">
+                {{'adoption.meetThem' | translate}}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="BestDogsForKids mt-10">
+      <div class="container px-[30px]">
+        <h2 class="font-extrabold text-[25px] md:text-[30px] text-[#155b84]">
+          {{'adoption.dogsForKids' | translate}}
+        </h2>
+        <div class="pets mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-2">
+          @for (pet of dogsForKids.slice(0,3); track pet._id) {
+            <div class="pet shadow-lg rounded-xl relative overflow-hidden border">
+              <div role="button" (click)="addToFavourite(pet._id)" 
+                   [ngClass]="{
+                     'flex items-center justify-center w-8 h-8 rounded-full absolute p-2 top-3 right-3': true,
+                     'bg-[#FFA33C] text-white': isFavorite(pet),
+                     'bg-white': !isFavorite(pet)
+                   }">
+                <i class="fa-regular fa-heart block z-3 text-[18px]"></i>
+              </div>
+              <img [src]="pet.petImage" class="w-full h-[220px] object-cover" [alt]="'Photo of ' + pet.name" loading="lazy">
+              <div class="p-3">
+                <h2 class="font-semibold text-[24px]">{{pet.name}}</h2>
+                <p class="font-medium text-[18px] text-[#747070]">{{pet.profileBio}}</p>
+              </div>
+            </div>
+          }
+          <div role="button" [routerLink]="['/pets']" [queryParams]="{type:'dogs'}" class="shadow-lg rounded-xl relative overflow-hidden bg-[#155b84]">
+            <picture class="flex flex-col items-center h-[220px] border-b justify-center">
+              <img src="/images/paw 1.png" class="w-[100px] block" [alt]="'adoption.dogs' | translate" loading="lazy">
+              <p class="font-medium text-[22px] text-white text-center">
+                {{'adoption.moreAvailable' | translate}} ({{'adoption.dogs' | translate}})
+              </p>
+            </picture>
+            <div class="p-3">
+              <h2 class="font-semibold text-white text-center text-[22px]">
+                {{'adoption.meetThem' | translate}}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else if (slider == 2) {
+    <!-- Cats Content -->
+    <div class="TopCollectionsCats">
+      <div class="container px-[30px]">
+        <h2 class="font-extrabold text-[25px] md:text-[30px] text-[#155b84]">
+          {{'adoption.topCollections' | translate}}
+        </h2>
+        <div class="pets mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-2">
+          @for (pet of topCollectionCats.slice(0,3); track pet._id) {
+            <div class="pet shadow-lg rounded-xl relative overflow-hidden border">
+              <div role="button" (click)="addToFavourite(pet._id)" 
+                   [ngClass]="{
+                     'flex items-center justify-center w-8 h-8 rounded-full absolute p-2 top-3 right-3': true,
+                     'bg-[#FFA33C] text-white': isFavorite(pet),
+                     'bg-white': !isFavorite(pet)
+                   }">
+                <i class="fa-regular fa-heart block z-3 text-[18px]"></i>
+              </div>
+              <img [src]="pet.petImage" class="w-full h-[220px] object-cover" [alt]="'Photo of ' + pet.name" loading="lazy">
+              <div class="p-3">
+                <h2 class="font-semibold text-[24px]">{{pet.name}}</h2>
+                <p class="font-medium text-[18px] text-[#747070]">{{pet.profileBio}}</p>
+              </div>
+            </div>
+          }
+          <div role="button" [routerLink]="['/pets']" [queryParams]="{type:'cats'}" class="shadow-lg rounded-xl relative overflow-hidden bg-[#155b84]">
+            <picture class="flex flex-col items-center h-[220px] border-b justify-center">
+              <img src="/images/paw 1.png" class="w-[100px] block" [alt]="'adoption.cats' | translate" loading="lazy">
+              <p class="font-medium text-[22px] text-white text-center">
+                {{'adoption.moreAvailable' | translate}} ({{'adoption.cats' | translate}})
+              </p>
+            </picture>
+            <div class="p-3">
+              <h2 class="font-semibold text-white text-center text-[22px]">
+                {{'adoption.meetThem' | translate}}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="BestCatsForKids mt-10">
+      <div class="container px-[30px]">
+        <h2 class="font-extrabold text-[25px] md:text-[30px] text-[#155b84]">
+          {{'adoption.catsForKids' | translate}}
+        </h2>
+        <div class="pets mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-2">
+          @for (pet of catsForKids.slice(0,3); track pet._id) {
+            <div class="pet shadow-lg rounded-xl relative overflow-hidden border">
+              <div role="button" (click)="addToFavourite(pet._id)" 
+                   [ngClass]="{
+                     'flex items-center justify-center w-8 h-8 rounded-full absolute p-2 top-3 right-3': true,
+                     'bg-[#FFA33C] text-white': isFavorite(pet),
+                     'bg-white': !isFavorite(pet)
+                   }">
+                <i class="fa-regular fa-heart block z-3 text-[18px]"></i>
+              </div>
+              <img [src]="pet.petImage" class="w-full h-[220px] object-cover" [alt]="'Photo of ' + pet.name" loading="lazy">
+              <div class="p-3">
+                <h2 class="font-semibold text-[24px]">{{pet.name}}</h2>
+                <p class="font-medium text-[18px] text-[#747070]">{{pet.profileBio}}</p>
+              </div>
+            </div>
+          }
+          <div role="button" [routerLink]="['/pets']" [queryParams]="{type:'cats'}" class="shadow-lg rounded-xl relative overflow-hidden bg-[#155b84]">
+            <picture class="flex flex-col items-center h-[220px] border-b justify-center">
+              <img src="/images/paw 1.png" class="w-[100px] block" [alt]="'adoption.cats' | translate" loading="lazy">
+              <p class="font-medium text-[22px] text-white text-center">
+                {{'adoption.moreAvailable' | translate}} ({{'adoption.cats' | translate}})
+              </p>
+            </picture>
+            <div class="p-3">
+              <h2 class="font-semibold text-white text-center text-[22px]">
+                {{'adoption.meetThem' | translate}}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else if (slider == 3) {
+    <!-- Shelters Content -->
+    <div class="shelters">
+      <div class="container px-[20px] md:px-[30px]">
+        <h2 class="font-extrabold text-[25px] md:text-[30px] text-[#155b84]">
+          {{'adoption.sheltersRescues' | translate}}
+        </h2>
+        <div class="shelters grid sm:grid-cols-2 md:grid-cols-3 gap-3 mt-6">
+          @for (shelter of shelters; track shelter._id) {
+            <div role="button" [routerLink]="['/shelter',shelter._id]" class="shelter bg-slate-500 relative rounded overflow-hidden">
+              <img [src]="shelter.shelterImage" class="w-full h-[250px] object-fill" [alt]="'Photo of ' + shelter.shelterName" loading="lazy">
+              <div class="absolute left-0 px-3 py-1 bottom-0 w-full backdrop-blur">
+                <h2 class="font-medium text-[20px] md:text-[25px] text-[#FAC32E]">{{shelter.shelterName}}</h2>
+                <div class="flex items-center gap-1">
+                  <span class="text-white">{{shelter.rate.toFixed(1)}} {{'adoption.rate' | translate}}</span>
+                  <i class="fa-solid fa-star text-[13px] text-[#FAC32E]"></i>
+                  <span class="text-white text-[16px]">({{shelter.numberOfRates}} {{'adoption.reviews' | translate}})</span>
+                </div>
+                <div class="flex text-[16px] gap-2 font-normal text-white">
+                  <p>{{shelter.description}}</p>
+                  <p>{{shelter.locations.address}}</p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  } @else if (slider == 0) {
+    <!-- Default Pets Content -->
+    <div class="pets-for-adoption">
+      <div class="container px-[30px]">
+        <h2 class="font-extrabold text-[25px] md:text-[30px] text-[#155b84]">
+          {{'adoption.petsForAdoption' | translate}}
+        </h2>
+        <div class="pets mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-2">
+          @for (pet of pets.slice(0,3); track pet._id) {
+            <div class="pet shadow-lg rounded-xl relative overflow-hidden border">
+              <div role="button" (click)="addToFavourite(pet._id)" 
+                   [ngClass]="{
+                     'flex items-center justify-center w-8 h-8 rounded-full absolute p-2 top-3 right-3': true,
+                     'bg-[#FFA33C] text-white': isFavorite(pet),
+                     'bg-white': !isFavorite(pet)
+                   }">
+                <i class="fa-regular fa-heart block z-3 text-[18px]"></i>
+              </div>
+              <img [src]="pet.petImage" class="w-full h-[220px] object-cover" [alt]="'Photo of ' + pet.name" loading="lazy">
+              <div class="p-3">
+                <h2 class="font-semibold text-[24px]">{{pet.name}}</h2>
+                <p class="font-medium text-[18px] text-[#747070]">{{pet.profileBio}}</p>
+              </div>
+            </div>
+          }
+          <div role="button" routerLink="/pets" class="shadow-lg rounded-xl relative overflow-hidden bg-[#155b84]">
+            <picture class="flex flex-col items-center h-[220px] border-b justify-center">
+              <img src="/images/paw 1.png" class="w-[100px] block" alt="More pets" loading="lazy">
+              <p class="font-medium text-[22px] text-white text-center">
+                {{'adoption.moreAvailable' | translate}}
+              </p>
+            </picture>
+            <div class="p-3">
+              <h2 class="font-semibold text-white text-center text-[22px]">
+                {{'adoption.meetThem' | translate}}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Success Stories -->
+  <div class="successAdapted mt-5 pt-7 pb-6 bg-[#155b84] px-[50px]">
+    <div class="container">
+      <h2 class="font-bold md:font-extrabold text-[25px] md:text-[40px] text-center text-[#FAC32E]">
+        {{'adoption.successfulAdoptions' | translate}}
+      </h2>
+      <p class="text-[18px] md:text-[22px] font-normal text-[#CDC6C6] text-center">
+        {{'adoption.successSubtitle' | translate}}
+      </p>
+      <br><br>
+      <owl-carousel-o [options]="adoption">
+        <ng-container *ngFor="let pet of successAdaped.slice(0,10)">
+          <ng-template carouselSlide [id]="pet._id">
+            <img [src]="pet.petImage" class="h-[300px] w-[200px] object-fill" [alt]="'Success story: ' + pet.name" loading="lazy">
+          </ng-template>
+        </ng-container>
+      </owl-carousel-o>
+    </div>
+  </div>
+
+  <!-- Blog Section -->
+  
+  <app-slider-blog></app-slider-blog>
+</section>

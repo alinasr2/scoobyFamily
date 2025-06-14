@@ -1,0 +1,77 @@
+<section>
+  <div class="container px-5">
+    <ng-container *ngIf="clinic">
+      <header [ngStyle]="{ 'background-image': 'url(' + (clinic.vetImage || 'https://res.cloudinary.com/dtny7jzz1/image/upload/v1747036055/Scooby/Vets/307317566_194759356246324_1544695514704276495_n.jpg.jpg') + ')'}" 
+              class="ps-4 flex items-center justify-center bg-cover bg-center h-[60vh] sm:h-[70vh]">
+        <div>
+          <div class="flex gap-2 items-center text-[16px]">
+            <span class="text-[#FACC15] text-2xl">★</span>
+            <span class="text-white font-medium"> {{ (clinic.rate !== undefined ? getRate().toFixed(2) : '0.00') }} </span>
+            <span class="text-[rgba(255,255,255,0.8)] font-normal">•</span>
+            <span class="text-[rgba(255,255,255,0.8)]">{{ (clinic.numberOfRate !== undefined ? getNumberOfReviews() : '0') }} {{ 'clinicPage.reviews' | translate }}</span>
+          </div>
+          <h2 class="text-[#ffc107] text-[40px] sm:text-[48px] font-bold">{{ clinic.vetName || ('clinicPage.vetClinic' | translate) }}</h2>
+          <p class="text-[18px] sm:text-[20px] font-normal text-white">{{ clinic.bio || ('clinicPage.defaultBio' | translate) }}</p>
+        </div>
+      </header>
+
+      <div class="flex gap-5 pb-10 flex-col md:flex-row mt-5 max-w-[800px] mx-auto">
+        <div>
+          <h3 class="text-[#155b84] text-[24px] font-bold">{{ 'clinicPage.locationContact' | translate }}</h3>
+          <div class="flex flex-col gap-4 mt-7">
+            <div class="flex gap-3 bg-[#F9FAFB] p-6 rounded-lg">
+              <span class="w-12 shrink-0 h-12 flex justify-center items-center bg-[#ffc107] rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#155b84">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+              </span>
+              <div>
+                <h4 class="text-[#155b84] text-[18px] font-semibold">{{ 'clinicPage.visitUs' | translate }}</h4>
+                <p class="text-[#7f8487] text-[16px] font-normal">
+                  {{ clinic.locations.address || ('clinicPage.noAddress' | translate) }}
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-3 bg-[#F9FAFB] p-6 rounded-lg">
+              <span class="w-12 h-12 flex justify-center items-center bg-[#ffc107] rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#155b84">
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+              </span>
+              <div>
+                <h4 class="text-[#155b84] text-[18px] font-semibold">{{ 'clinicPage.contact' | translate }}</h4>
+                <ng-container *ngIf="clinic.callNumber; else noContact">
+                  <a href="tel:{{clinic.callNumber}}" class="text-[#7f8487] text-[16px] font-normal hover:text-[#ffc107]">
+                    {{ clinic.callNumber }}
+                  </a>
+                </ng-container>
+                <ng-template #noContact>
+                  <p class="text-[#7f8487] text-[16px] font-normal">{{ 'clinicPage.noPhone' | translate }}</p>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-[#155b84] text-[24px] font-bold">{{ 'clinicPage.whatPeopleSay' | translate }}</h3>
+          <div class="flex gap-3 bg-[#F9FAFB] p-6 rounded-lg relative mt-7">
+            <span class="w-16 h-10 text-20 font-medium flex justify-center absolute -top-6 left-6 items-center bg-[#ffc107] rounded-full text-[#155b84]">
+              ★ {{ getRate() || '0' }}
+            </span>
+            <div>
+              <p class="text-[#7f8487] text-[16px] font-normal">
+                {{ clinic.review || ('clinicPage.noReviews' | translate) }}
+              </p>
+              <br><hr>
+              <p class="font-normal text-[14px] text-gray-600 mb-2 mt-4">
+                {{ 'clinicPage.basedOn' | translate }} {{ (clinic.numberOfRate !== undefined ? getNumberOfReviews() : '0') }} {{ 'clinicPage.reviewsText' | translate }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

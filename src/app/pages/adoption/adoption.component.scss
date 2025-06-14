@@ -1,0 +1,71 @@
+.card {
+  gap: 3px;
+  cursor: pointer;
+  transition: 0.2s;
+  
+  h3 {
+    font-weight: 500;
+  }
+  
+  &:hover {
+    background-color: #155b84;
+    color: white;
+    
+    h3 {
+      color: white;
+    }
+  }
+}
+
+.cards {
+  margin: 50px 0;
+}
+
+.pet {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+}
+
+.shelter {
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cards {
+    margin: 0;
+    transform: translateY(-50%);
+  }
+}
+
+.successAdapted {
+  .owl-carousel {
+    .owl-nav {
+      button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.7) !important;
+        width: 40px;
+        height: 40px;
+        border-radius: 50% !important;
+        color: #155b84 !important;
+        
+        &.owl-prev {
+          left: -20px;
+        }
+        
+        &.owl-next {
+          right: -20px;
+        }
+      }
+    }
+  }
+}

@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html{
+    scroll-behavior: smooth;
+}
+.container{
+    margin: auto;
+}
+body{
+    // font-family: "Roboto", sans-serif;
+      font-family: "Jost", sans-serif;
+
+}
+.main-heading{
+    text-align: center;
+    color: #155b84;
+}
+.main-heading h2{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+header {
+  position: relative;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+header * {
+  position: relative;
+  z-index: 1;
+}

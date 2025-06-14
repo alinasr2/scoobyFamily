@@ -1,0 +1,141 @@
+<nav class="w-full bg-[#155B84] py-5">
+    <div class="container px-3 sm:px-0 flex justify-between">
+            <button class="text-white font-medium rounded-lg text-xl" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="bg-[#ffffff23] px-2 py-1 rounded-full flex items-center gap-2">
+                <picture class="w-8 h-8 rounded-full overflow-hidden block">
+                    <img class="w-full h-full" [src]="user.profileImage" alt="image">
+                </picture>
+                <div class="flex flex-col">
+                    <h2 class="text-[14px] text-white font-semibold">{{user.name}}</h2>
+                    <h4 class="text-[12px] text-[#ffc107] font-bold">{{ 'adminNav.administrator' | translate }}</h4>
+                </div>
+            </div>
+    </div>
+</nav>
+<!-- drawer component -->
+<div id="drawer-navigation" class="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-[#155B84]" tabindex="-1" aria-labelledby="drawer-navigation-label">
+  <h5 id="drawer-navigation-label" class="text-base font-semibold text-white">{{ 'adminNav.menu' | translate }}</h5>
+  <button type="button" data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center">
+    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+    </svg>
+    <span class="sr-only">{{ 'adminNav.closeMenu' | translate }}</span>
+  </button>
+  <div class="py-4 overflow-y-auto">
+    <ul class="space-y-2 font-medium">
+      <!-- Dashboard -->
+      <li>
+        <a routerLink="dashboard" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fas fa-tachometer-alt w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.dashboard' | translate }}</span>
+        </a>
+      </li>
+      
+      <!-- Blogs -->
+      <li>
+        <a routerLink="blogs" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fas fa-blog w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.blogs' | translate }}</span>
+        </a>
+      </li>
+      
+      <!-- Services -->
+      <li>
+        <a routerLink="services" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fa-solid fa-paw w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.services' | translate }}</span>
+        </a>
+      </li>
+
+      
+      <!-- Coupons -->
+      <li>
+        <a routerLink="coupons" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fas fa-tag w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.coupons' | translate }}</span>
+        </a>
+      </li>
+      
+      <!-- Products -->
+      <li>
+        <a routerLink="products" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fa-solid fa-basket-shopping w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.products' | translate }}</span>
+        </a>
+      </li>
+
+      
+      <!-- Doctors -->
+      <li>
+        <a routerLink="doctors" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fas fa-user-md w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.doctors' | translate }}</span>
+        </a>
+      </li>
+      
+      <!-- Clinics -->
+      <li>
+        <a routerLink="clinics" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fas fa-clinic-medical w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.clinics' | translate }}</span>
+        </a>
+      </li>
+      
+      <!-- Orders -->
+      <li>
+        <a routerLink="orders" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fas fa-shopping-cart w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.orders' | translate }}</span>
+        </a>
+      </li>
+      
+      <!-- Users -->
+      <li>
+        <a routerLink="users" routerLinkActive="active" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fas fa-users w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.users' | translate }}</span>
+        </a>
+      </li>
+      
+      <!-- View Site -->
+      <li>
+        <a href="/home" target="_blank" class="flex items-center p-2 text-white hover:bg-yellow-400 hover:text-[#155B84] rounded-lg">
+          <i class="fas fa-external-link-alt w-5 h-5"></i>
+          <span class="ms-3">{{ 'adminNav.viewSite' | translate }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<button
+  (click)="change()"
+  class="fixed top-1/2 -end-12 hover:end-1 z-50 w-fit h-12 bg-gradient-to-b from-gray-50 to-gray-100 border-2 border-gray-200 shadow-lg rounded-full flex items-center px-3 transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] hover:scale-105 hover:shadow-xl hover:bg-gradient-to-b hover:from-amber-100 hover:to-amber-200 group transform -translate-y-1/2"
+  [ngClass]="{
+    'justify-start': currentLang === 'ar',
+    'justify-end': currentLang === 'en'
+  }"
+  [title]="'adminNav.changeLanguage' | translate"
+  [attr.aria-label]="'adminNav.changeLanguage' | translate"
+>
+  <div class="flex items-center gap-2 transition-all duration-500">
+    <!-- Flag with subtle scaling animation -->
+    <img
+      [src]="currentLang === 'ar'
+        ? 'https://flagcdn.com/w40/sa.png'
+        : 'https://flagcdn.com/w40/gb.png'"
+      alt="flag"
+      class="w-6 h-6 rounded-full object-cover transition-transform duration-300 group-hover:scale-110 shadow-sm"
+    />
+    
+    <!-- Text with gradient color -->
+    <span class="font-bold text-sm bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-blue-600">
+      {{ currentLang === 'ar' ? ('adminNav.english' | translate) : ('adminNav.arabic' | translate) }}
+    </span>
+  </div>
+  
+  <!-- Glow effect -->
+  <div class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-amber-200/30 to-blue-200/30 -z-10"></div>
+</button>

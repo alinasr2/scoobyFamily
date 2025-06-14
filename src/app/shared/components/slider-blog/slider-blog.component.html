@@ -1,0 +1,31 @@
+<section class="py-10 bg-gray-50">
+  <div class="text-center mb-8 main-heading">
+    <h2 >
+      {{ 'blogsPage.blogsTitle' | translate }}
+    </h2>
+    <p >❖ −−−− ❖</p>
+  </div>
+
+  <owl-carousel-o [options]="customOptions" >
+    <ng-container *ngFor="let slide of blogs.slice(0, 10)" >
+      <ng-template carouselSlide [id]="slide._id" >
+        <a
+          [href]="slide.link"
+          target="_blank"
+          class="flex flex-col items-center bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 mx-2 p-4 h-[250px]"
+        >
+          <img
+            [src]="slide.plogImage"
+            class="rounded-lg object-cover w-full h-[160px] mb-4"
+            [alt]="slide._id"
+            [title]="slide.description"
+          />
+          <p class="text-gray-600 text-sm text-center line-clamp-3">
+            {{ slide.description }}
+          </p>
+        </a>
+        <br>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+</section>

@@ -1,0 +1,28 @@
+h4{
+    transition: 0.3s;
+}
+h4:hover{
+    background-color: #155B84;
+    color: white;
+    i{
+        color: white;
+    }
+}
+h4{
+    background-color: #f0f0f0;
+    font-weight: 600;
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #888080;
+    i{
+    color:#155B84;
+    }
+}
+h4.active{
+    background-color: #155B84;
+    color: white;
+    i{
+        color: white;
+    }
+}

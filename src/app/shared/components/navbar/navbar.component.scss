@@ -1,0 +1,40 @@
+.active-link {
+    background-color: #155B84; 
+    padding: 10px; 
+    transition: background-color 0.3s ease; 
+  }
+  
+  .active-link svg {
+    fill: white; 
+  }
+aside {
+  transition: transform 0.3s ease-in-out;
+}
+
+div.bg-opacity-50 {
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+.fas, .far, .fab {
+  font-display: swap;
+  display: inline-block;
+  width: 1.25em;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+  
+  .mobile-sidebar {
+    transform: translateX(100%) !important;
+  }
+}

@@ -1,0 +1,103 @@
+<div class="card flex justify-center">
+    <button 
+        (click)="showDialog()" 
+        class="text-white text-[18px] font-medium mx-auto mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] bg-[#155b84] hover:bg-[#2A698F] transition">
+        <i class="fa-solid fa-plus"></i>
+        <h3 class="text-[18px]">{{ 'doctorManage.addDoctor' | translate }}</h3>
+    </button>
+
+    <p-dialog [header]="'doctorManage.addNewDoctor' | translate" [modal]="true" [(visible)]="visible" [style]="{ width: '35rem' }">
+        <p-floatlabel variant="on">
+            <input pInputText id="name" class="w-full" autocomplete="off" [(ngModel)]="name" (ngModelChange)="checkInputs()" />
+            <label for="name">{{ 'doctorManage.doctorName' | translate }}</label>
+        </p-floatlabel>
+        
+        <p-floatlabel variant="on">
+            <input type="number" pInputText id="rate" class="w-full" autocomplete="off" [(ngModel)]="rate" (ngModelChange)="checkInputs()" min="0" max="5" step="0.1" />
+            <label for="rate">{{ 'doctorManage.doctorRate' | translate }}</label>
+        </p-floatlabel>
+        
+        <p-floatlabel variant="on">
+            <input type="number" pInputText id="numberOfRate" class="w-full" autocomplete="off" [(ngModel)]="numberOfRate" (ngModelChange)="checkInputs()" min="0" />
+            <label for="numberOfRate">{{ 'doctorManage.numberOfRates' | translate }}</label>
+        </p-floatlabel>
+        
+        <p-floatlabel variant="on">
+            <input pInputText id="phone" class="w-full" autocomplete="off" [(ngModel)]="phone" (ngModelChange)="checkInputs()" />
+            <label for="phone">{{ 'doctorManage.phoneNumber' | translate }}</label>
+        </p-floatlabel>
+        
+        <p-floatlabel variant="on">
+            <input pInputText id="description" class="w-full" autocomplete="off" [(ngModel)]="description" (ngModelChange)="checkInputs()" />
+            <label for="description">{{ 'doctorManage.description' | translate }}</label>
+        </p-floatlabel>
+        
+        <p-floatlabel variant="on">
+            <input pInputText id="about" class="w-full" autocomplete="off" [(ngModel)]="about" (ngModelChange)="checkInputs()" />
+            <label for="about">{{ 'doctorManage.about' | translate }}</label>
+        </p-floatlabel>
+        
+        <div class="mb-3">
+            <label class="block mb-2">{{ 'doctorManage.specializedIn' | translate }}</label>
+            <p-chips [(ngModel)]="specialized_in" (ngModelChange)="checkInputs()" separator=","></p-chips>
+        </div>
+        
+        <div class="mb-3">
+            <label class="block mb-2">{{ 'doctorManage.acceptedPetTypes' | translate }}</label>
+            <p-multiSelect 
+                [options]="petTypes" 
+                [(ngModel)]="acceptedPetTypes" 
+                (onChange)="checkInputs()"
+                optionLabel="label"
+                optionValue="value" 
+                display="chip"
+                [placeholder]="'doctorManage.selectPetTypes' | translate"
+                class="w-full">
+            </p-multiSelect>
+        </div>
+        
+        <div class="mb-3">
+            <label class="block mb-2">{{ 'doctorManage.profileImages' | translate }}</label>
+            <p-fileUpload 
+                name="imagesProfile" 
+                [multiple]="true" 
+                accept="image/*"
+                customUpload="true"
+                (onSelect)="onProfileImagesSelected($event)"
+                (onRemove)="onProfileImagesRemoved($event)">
+                <ng-template pTemplate="content">
+                    <ul *ngIf="profileImageFiles.length > 0">
+                        <li *ngFor="let file of profileImageFiles">{{file.name}} ({{file.size}} bytes)</li>
+                    </ul>
+                </ng-template>
+            </p-fileUpload>
+        </div>
+        
+        <div class="mb-4" *ngIf="previewImage">
+            <img [src]="previewImage" alt="Preview" class="max-h-40 mx-auto rounded">
+        </div>
+        
+        <div class="flex items-center justify-between">
+            <div>
+                <label for="doctorImage" class="bg-[#FFC107] text-white text-[18px] font-medium mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] transition cursor-pointer hover:bg-[#e0a800]">
+                    <i class="fa-regular fa-image"></i>
+                    <h3>{{ 'doctorManage.mainDoctorImage' | translate }}</h3>    
+                </label>
+                <input class="hidden" type="file" id="doctorImage" (change)="onMainImageSelected($event)" accept="image/*">
+            </div>
+            
+            <button 
+                [disabled]="isButtonDisabled" 
+                (click)="createDoctor()"
+                class="text-white text-[18px] font-medium mb-[30px] flex items-center gap-[5px] px-[22px] py-[10px] rounded-[7px] transition bg-[#155b84] hover:bg-[#2A698F] disabled:bg-gray-400 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-check"></i>
+                <h3>{{ 'doctorManage.addButton' | translate }}</h3>    
+            </button>
+        </div>
+    </p-dialog>
+</div>
+
+<app-reusable-table
+    [data]="doctors"
+    [columns]="columns">
+</app-reusable-table>

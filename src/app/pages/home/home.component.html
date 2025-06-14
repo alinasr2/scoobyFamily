@@ -1,0 +1,81 @@
+<section>
+    <header class="relative bg-[url('/images/background.png')] bg-cover bg-center h-[60vh] sm:h-[90vh] flex flex-col items-center justify-center text-white text-center px-4">
+      <h2 class="text-2xl md:text-[55px] max-w-[700px] leading-[40px] sm:leading-[60px] font-bold mb-2 text-[#FAC32E]">
+        {{'home.heroTitle' | translate}}
+      </h2>
+      <h4 class="text-base md:text-2xl mt-5">
+        {{'home.heroSubtitle' | translate}}
+      </h4>
+    </header>
+    
+    <div class="services">
+        <div class="container px-[30px] md:px-[70px]">
+            <div class="cards grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-[20px] md:gap-[30px]">
+                @for (service of servicesProfiles.slice(0,4); track service._id) {
+                    <div [routerLink]="['/serviceProfile',service._id]" class="card group p-4 md:px-[50px] md:py-[30px] bg-[#F1F0F0] rounded-3xl shadow-lg flex flex-col justify-center items-center">
+                        <img class="w-full mx-auto" [src]="service.icon" alt="veterinaire">
+                        <h3 class="text-[20px] group-hover:text-white md:text-[24px] text-center text-[#155b84]">
+                          {{service.name.split(" ").slice(1,2).join("")}}
+                        </h3>
+                    </div>
+                }
+                <div routerLink="/services" class="card group p-4 md:px-[50px] md:py-[30px] bg-[#F1F0F0] rounded-3xl shadow-lg flex flex-col justify-center items-center">
+                    <img loading="lazy" class="w-full mx-auto" src="/images/pets 1.png" alt="image">
+                    <h3 class="text-[20px] group-hover:text-white md:text-[24px] text-center text-[#155b84]">
+                      {{'home.more' | translate}}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bg-[#F1ECEC] text-center pt-[50px] sm:pt-[100px] pb-[50px]">
+        <div class="container px-[30px] sm:px-[60px]">
+            <h2 class="font-bold sm:font-extrabold text-[25px] sm:text-[38px] text-[#FAC32E]">
+              {{'home.easyTitle' | translate}}
+            </h2>
+            
+            <p class="font-normal text-[18px] sm:text-[24px] text-[rgba(15,15,15,0.63)]">
+              {{'home.easySubtitle' | translate}}
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-[20px] mt-[50px]">
+                <div>
+                    <h4 class="border border-[#807E7E] flex items-center rounded-lg overflow-hidden gap-2">
+                      <span class="bg-[#155b84] p-3"><i class="fa-solid fa-magnifying-glass text-2xl text-white"></i></span>
+                      {{'home.steps.find' | translate}}
+                    </h4>
+                    <p class="text-[rgba(15,15,15,0.65)] text-left mt-2">
+                      {{'home.steps.findDesc' | translate}}
+                    </p>
+                </div>
+                <div>
+                    <h4 class="border border-[#807E7E] flex items-center overflow-hidden rounded-lg gap-2">
+                      <span class="bg-[#155b84] p-3"><i class="fa-solid fa-calendar text-2xl text-white"></i></span>
+                      {{'home.steps.meet' | translate}}
+                    </h4>
+                    <p class="text-[rgba(15,15,15,0.65)] text-left mt-2">
+                      {{'home.steps.meetDesc' | translate}}
+                    </p>
+                </div>
+                <div>
+                    <h4 class="border border-[#807E7E] flex items-center overflow-hidden rounded-lg gap-2">
+                      <span class="bg-[#155b84] p-3"><i class="fa-solid fa-money-check text-2xl text-white"></i></span>
+                      {{'home.steps.book' | translate}}
+                    </h4>
+                    <p class="text-[rgba(15,15,15,0.65)] text-left mt-2">
+                      {{'home.steps.bookDesc' | translate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @defer (on viewport) {
+        <app-slider-blog></app-slider-blog>
+    } @placeholder {
+        <div class="h-[300px] flex items-center justify-center text-black">
+          {{'home.loading' | translate}}
+        </div>
+    }
+</section>

@@ -1,0 +1,214 @@
+<header
+  [style]="{ 
+    'background-image': 'url(' + shelter.shelterImage + ')',
+    'background-size': 'cover',
+    'background-position': 'center'
+  }"
+  class="relative h-[90vh] flex flex-col items-center justify-center text-white text-center px-4">
+    <div class="flex flex-col gap-2" >
+        <h2 class="font-extrabold text-4xl" >{{shelter.shelterName}}</h2>
+        <div class="flex text-[#FAC32E] text-sm text-center w-fit mx-auto" >
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+        </div>
+        <div class="text-sm text-[rgba(240,240,240,0.6)]" >{{shelter.rate.toFixed(1)}} ({{shelter.numberOfRates}} Reviews)</div>
+    </div>
+</header>
+
+<div class="-translate-y-1/2 ">
+    <div class="container ">
+        <div class="w-fit bg-white py-5 px-6 lg:px-12 shadow-xl rounded-xl mx-auto flex flex-col md:flex-row items-center gap-y-6 gap-x-32 ">
+            <div class="flex items-center w-full md:w-auto  gap-3 text-start">
+                <span class="h-10 w-10 flex justify-center items-center rounded-lg bg-yellow-400">
+                    <i class="fa-solid fa-location-dot text-xl text-[#155b84]"></i>
+                </span>
+                <div>
+                    <h3 class="text-[#155b84] text-base font-medium" >{{ 'shelterPage.location' | translate }}</h3>
+                    <p class="text-slate-400" >{{shelter.locations.address}}</p>
+                </div>
+            </div>
+            <div class="flex items-center w-full md:w-auto gap-3 text-start">
+                <span class="h-10 w-10 flex justify-center items-center rounded-lg bg-yellow-400">
+                    <i class="fa-solid fa-phone text-xl text-[#155b84]"></i>
+                </span>
+                <div>
+                    <h3 class="text-[#155b84] text-base font-medium" >{{ 'shelterPage.contact' | translate }}</h3>
+                    <p class="text-slate-400" >{{shelter.shelterNumber}}</p>
+                </div>
+            </div>
+            <div class="flex items-center w-full md:w-auto gap-3 text-start">
+                <span class="h-10 w-10 flex justify-center items-center rounded-lg bg-yellow-400">
+                    <i class="fa-solid fa-clock text-xl text-[#155b84]"></i>
+                </span>
+                <div>
+                    <h3 class="text-[#155b84] text-base font-medium" >{{ 'shelterPage.workHours' | translate }}</h3>
+                    <p class="text-slate-400" >{{shelter.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="about ">
+    <div class="container px-4 sm:px-7 md:px-10">
+        <h2 class="text-2xl text-[#155b84] font-semibold" >{{ 'shelterPage.aboutUs' | translate }}</h2>
+        <p class="text-[#333] text-lg">{{shelter.about}}</p>
+    </div>
+</div>
+
+<div class="gallery mt-4">
+    <div class="container px-4 sm:px-7 md:px-10">
+        <h2 class="text-2xl text-[#155b84] font-semibold" >{{ 'shelterPage.galleryShelter' | translate }}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+            <picture class="col-span-1 sm:col-span-2 h-[250px] overflow-hidden" >
+                <img loading="lazy" [src]="shelter.shelterImages[0]" class="w-full h-full object-cover rounded-xl" alt="image">
+            </picture>
+            <picture class="col-span-1 h-[250px] overflow-hidden" >
+                <img loading="lazy" [src]="shelter.shelterImages[1]" class="w-full h-full object-cover rounded-xl" alt="image">
+            </picture>
+            <picture class="col-span-1 h-[250px] overflow-hidden">
+                <img loading="lazy" [src]="shelter.shelterImages[2]" class="w-full h-full object-cover rounded-xl" alt="image">
+            </picture>
+            <picture class="col-span-1 sm:col-span-2 h-[250px] overflow-hidden">
+                <img loading="lazy" [src]="shelter.shelterImages[3]" class="w-full h-full object-cover rounded-xl" alt="image">
+            </picture>
+            <picture class="col-span-1 h-[250px] overflow-hidden">
+                <img loading="lazy" [src]="shelter.shelterImages[4]" class="w-full h-full object-cover rounded-xl" alt="image">
+            </picture>
+        </div>
+    </div>
+</div>
+
+<div class="pets mt-4">
+    <div class="container px-4 sm:px-7 md:px-10">
+        <h2 class="text-2xl text-[#155b84] font-semibold" >{{ 'shelterPage.ourPets' | translate }}</h2>
+        <div class="mt-4">
+            <owl-carousel-o [options]="customOptions">
+                <ng-container *ngFor="let pet of pets">
+                  <ng-template carouselSlide>
+                    <div class="pet relative rounded-xl overflow-hidden shadow-md">
+                      <div role="button" (click)="addToFavourite(pet._id)" 
+                            [ngClass]="{
+                                'flex items-center justify-center w-8 h-8 rounded-full  absolute p-2 top-3 right-3':true,
+                                'bg-[#FFA33C] text-white':isFavorite(pet),
+                                'bg-white':!isFavorite(pet),
+                                }">
+                                <i class="fa-regular fa-heart block z-3 text-[18px]"></i>
+                          </div>
+                      <img loading="lazy" class="w-full h-[280px] sm:h-[220px] object-fill" [src]="pet.petImage" alt="image">
+                      <div class="absolute backdrop-blur bottom-0 w-full p-2" >
+                          <span class="font-semibold text-[#ffc107]" >{{pet.weight}} kg</span>
+                          <div class="flex justify-between" >
+                              <h3 class="text-white font-semibold text-[20px]" >{{pet.name}}</h3>
+                              <div class="flex gap-1 text-[#ffc107]">
+                                  <p class="bg-[#155b84] py-1 px-2 rounded-xl font-semibold text-[14px]"> {{pet.type.charAt(0).toUpperCase() + pet.type.slice(1)}} </p>
+                                  <p class="bg-[#155b84] py-1 px-2 rounded-xl font-semibold text-[14px]">{{pet.gender.charAt(0).toUpperCase() + pet.gender.slice(1)}}</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  </ng-template>
+                </ng-container>
+            </owl-carousel-o>
+        </div>
+    </div>
+</div>
+
+<div class="reviews mb-20">
+    <div class="container px-4 sm:px-7 md:px-10">
+        <h2 class="text-2xl text-[#155b84] font-semibold" >{{ 'shelterPage.reviews' | translate }}</h2>
+        <div class="flex flex-wrap md:flex-nowrap gap-7">
+            <!-- Review Display -->
+            <div class="reviews flex flex-col gap-5 pt-5 w-full">
+                @for (review of shelter.reviewsOfShelter; track $index) {
+                    <div class="review flex gap-3 py-2 items-start">
+                        <picture class="rounded-full w-12 h-12 md:w-16 md:h-16 overflow-hidden shrink-0">
+                            <img loading="lazy" [src]="review.user.profileImage" class="w-full h-full object-cover" alt="user image" />
+                        </picture>
+                    
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between flex-wrap">
+                                <h4 [routerLink]="['/account',review.user._id]" class="font-medium text-[14px] cursor-pointer hover:text-[#ffc107] transition sm:text-[17px] md:text-[20] text-[#155b84] flex items-center gap-2">{{review.user.name}}
+                                    @if (myId == review.user._id) {
+                                        <h5 class="text-gray-500 text-base">{{ 'shelterPage.me' | translate }}</h5>
+                                    }
+                                </h4>
+                                <p class="text-[10px] sm:text-[12px] md:text-[14px] text-[rgba(15,15,15,0.5)]">
+                                    {{formatDate(review.createdAt)}}
+                                </p>
+                            </div>
+                        
+                            <div class="flex items-center gap-1">
+                                @for (star of [1, 2, 3, 4, 5]; track star) {
+                                    @if (star <= review.rating) {
+                                        <i class="fa-solid fa-star text-[#FAC32E] text-[10px] md:text-[12px]"></i>
+                                    } @else {
+                                        <i class="fa-solid fa-star text-gray-300 text-[10px] md:text-[12px]"></i>
+                                    }
+                                }
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-[14px] sm:text-[15px] text-[rgba(15,15,15,0.5)] font-normal mt-3">
+                                    {{review.review}}
+                                </p>
+                                @if (myId == review.user._id) {
+                                    <div class="flex gap-2">
+                                        <button (click)="updateReview(review.rating, review.review, review._id)" class="px-2 py-1 h-fit flex gap-1 justify-center items-center rounded-md hover:bg-yellow-400 hover:text-white transition-all duration-300 text-yellow-400 border border-yellow-400">
+                                            <i class="fa-regular fa-pen-to-square text-sm"></i>
+                                            <h4 class="text-sm">{{ 'shelterPage.edit' | translate }}</h4>
+                                        </button>
+                                        <button (click)="deleteReview(review._id)" class="px-2 py-1 h-fit flex gap-1 justify-center items-center rounded-md hover:bg-red-500 hover:text-white transition-all duration-300 text-red-500 border border-red-500">
+                                            <i class="fa-regular fa-trash-can text-sm"></i>
+                                            <h4 class="text-sm">{{ 'shelterPage.delete' | translate }}</h4>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                }
+            </div>
+
+            <!-- Review Form -->
+            <div class="max-w-md border border-gray-50 shadow-xl rounded-md h-fit w-full md:max-w-[240px] md:min-w-[350px] mx-auto p-6">
+                <h2 class="text-base sm:text-lg font-semibold text-[#155b84] mb-4">{{ 'shelterPage.writeReview' | translate }}</h2>
+            
+                <form [formGroup]="reviewForm">
+                    <textarea formControlName="review" rows="4" [placeholder]="'shelterPage.yourReview' | translate" class="mt-3 w-full border border-gray-300 p-2 text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-[#155b84]"></textarea>
+                    @if (reviewForm.get('review')?.getError('required') && reviewForm.get('review')?.touched) {
+                        <div class="text-red-500 text-xs mt-1">
+                            {{ 'shelterPage.reviewRequired' | translate }}
+                        </div>
+                    }
+                    <div class="flex items-center gap-1 mt-3">
+                        @for (star of [1, 2, 3, 4, 5]; track star) {
+                            <svg 
+                                (click)="setRating(star)"
+                                [attr.data-rating]="star"
+                                class="w-6 h-6 cursor-pointer"
+                                [class.text-yellow-400]="star <= selectedRating"
+                                [class.text-gray-300]="star > selectedRating"
+                                fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path [attr.d]="star <= selectedRating ? 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' : 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'" />
+                            </svg>
+                        }
+                    </div>
+                    @if (reviewForm.get('rating')?.getError('required') && reviewForm.get('rating')?.touched) {
+                        <div class="text-red-500 text-xs mt-1">
+                            {{ 'shelterPage.ratingRequired' | translate }}
+                        </div>
+                    }
+                </form>
+                
+                <button (click)="submit()" class="w-full bg-[#155b84] hover:bg-[#ffc107] mt-6 text-white font-medium py-2 px-4 text-sm sm:text-base rounded-full transition duration-300">
+                    {{ 'shelterPage.submitReview' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

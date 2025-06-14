@@ -1,0 +1,62 @@
+<section class="py-10">
+    <div class="main-heading">
+        <h2>
+            @if (type == 'dogs') {
+                {{ 'adoptionPage.dogsForAdoption' | translate }}
+            }
+            @else if (type == 'cats') {
+                {{ 'adoptionPage.catsForAdoption' | translate }}
+            }
+            @else {
+                {{ 'adoptionPage.petsForAdoption' | translate }}
+            }
+        </h2>
+        <p class="text-xl">❖ −−−− ❖</p>
+    </div>
+    <br>
+    <div>
+        <div class="container px-[20px] md:px-[0] lg:px-[30px]">
+            <div class="flex items-center gap-2 text-[#155B84]">
+                <i class="fa-solid fa-filter text-[20px]"></i>
+                <p class="font-semibold text-[20px] sm:font-semibold sm:text-[22px]">{{ 'adoptionPage.filterByTypes' | translate }}</p>
+            </div>
+            <div class="types flex gap-3 mt-3">
+                <h4 (click)="getAllPets()" [routerLink]="['/pets']" role="button" [class]="{'active':type != 'cats' && type != 'dogs'}">
+                    {{ 'adoptionPage.allPets' | translate }}
+                </h4>
+                <h4 (click)="getDogs()" [routerLink]="['/pets']" [queryParams]="{'type':'dogs'}" role="button" [class]="{'active':type == 'dogs'}">
+                    {{ 'adoptionPage.dogs' | translate }}<i class="fa-solid fa-dog ms-2"></i>
+                </h4>
+                <h4 (click)="getCats()" [routerLink]="['/pets']" [queryParams]="{'type':'cats'}" role="button" [class]="{'active':type == 'cats'}">
+                    {{ 'adoptionPage.cats' | translate }}<i class="fa-solid fa-cat ms-2"></i>
+                </h4>
+            </div>
+
+            <div class="pets grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-6">
+                @for (pet of pets.slice(0,30); track pet._id) {
+                    <div class="pet relative rounded-xl overflow-hidden hover:shadow-xl transition-all duration-200 hover:-translate-y-1 shadow-md">
+                        <div role="button" (click)="addToFavourite(pet._id)" 
+                            [ngClass]="{
+                                'flex items-center justify-center w-8 h-8 rounded-full  absolute p-2 top-3 right-3':true,
+                                'bg-[#FFA33C] text-white':isFavorite(pet),
+                                'bg-white':!isFavorite(pet),
+                                }">
+                                <i class="fa-regular fa-heart block z-3 text-[18px]"></i>
+                            </div>
+                        <img class="w-full h-[280px] sm:h-[220px] object-fill" [src]="pet.petImage" alt="image">
+                        <div class="absolute backdrop-blur bottom-0 w-full p-2" >
+                            <span class="font-semibold text-[#ffc107]">{{pet.weight}} kg</span>
+                            <div class="flex justify-between" >
+                                <h3 class="text-white font-semibold text-[20px]">{{pet.name.split(" ").slice(0,1).join("")}}</h3>
+                                <div class="flex gap-1 text-[#ffc107]">
+                                    <p class="bg-[#155B84] py-1 px-2 rounded-xl font-semibold text-[14px]">{{pet.type.charAt(0).toUpperCase() + pet.type.slice(1)}}</p>
+                                    <p class="bg-[#155B84] py-1 px-2 rounded-xl font-semibold text-[14px]">{{pet.gender.charAt(0).toUpperCase() + pet.gender.slice(1)}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
