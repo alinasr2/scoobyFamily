@@ -1,5 +1,5 @@
 <section>
-  <nav class="bg-[#155b84] border-gray-200 dark:bg-gray-900" 
+  <nav class="bg-[#155b84] border-gray-200" 
        [class.bg-white]="!isLogin"
        [class.border-b-2]="!isLogin">
     <div class="container">
@@ -40,7 +40,7 @@
 </button>
         @if (isLogin) {
           <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-1 lg:space-x-2 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-1 lg:space-x-2 rtl:space-x-reverse md:mt-0 md:border-0">
               <li>
                 <a [routerLink]="'/home'" routerLinkActive="bg-yellow-600"
                    class="block text-white text-center px-3 py-1 rounded font-normal text-[15px] cursor-pointer">
