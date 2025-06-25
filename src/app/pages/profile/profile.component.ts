@@ -105,7 +105,7 @@ export class ProfileComponent implements OnInit {
 
     let updateForm = new FormData();
     
-    if (this.selectedFile && typeof this.selectedFile !== 'string') {
+    if (this.selectedFile) {
       updateForm.append('profileImage', this.selectedFile);
     }
     
